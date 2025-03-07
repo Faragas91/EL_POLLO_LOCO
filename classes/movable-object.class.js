@@ -5,6 +5,9 @@ class MovableObject {
     width = 100;
     height = 150;
     imageCache = {};
+    speed = 0.15;
+    currentImage = 0;
+    otherDirection = false;
 
     loadImage(path) {
         this.img = new Image();
@@ -17,46 +20,11 @@ class MovableObject {
             this.img.src = path;
             this.imageCache[path] = this.img;
         });
-
     }
 
-    animate(positionX) {
-        setInterval(() => {
-            this.positionX -= positionX;
-        }, 1000 / 60);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    moveRight() {
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "d" || event.key === "D") {
-                this.positionX += 10;
-            }
-        });
-    }
-
-    
     moveLeft() {
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "a" || event.key === "A") {
-                this.positionX -= 10;
-            }
-        });
+        setInterval(() => {
+            this.positionX -= this.speed;
+        }, 1000 / 60);
     }
 }
