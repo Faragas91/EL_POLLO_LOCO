@@ -3,9 +3,10 @@ class Cloud extends MovableObject {
     width = 500;
     height = 250;
     
-    constructor(imagePath) {
+    constructor(imagePath, x) {
         super();
         this.loadImage(imagePath);
+        this.positionX = x;
         this.animateClouds();
     }
 
