@@ -10,6 +10,7 @@ class MovableObject {
     acceleration = 1;
     currentImage = 0;
     otherDirection = false;
+    energy = 100;
 
     loadImage(path) {
         this.img = new Image();
@@ -22,6 +23,27 @@ class MovableObject {
             this.img.src = path;
             this.imageCache[path] = this.img;
         });
+    }
+    
+    draw(ctx) {
+        ctx.drawImage(this.img, this.positionX, this.positionY, this.width, this.height);
+    }
+
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.positionX, this.positionY, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    isColliding (obj) {
+        return  this.positionX + this.width > obj.positionX && 
+                this.positionX < (obj.positionX + obj.width) && 
+                this.positionY + this.height > obj.positionY &&
+                this.positionY < (obj.positionY + obj.height);
     }
 
     moveRight() {
