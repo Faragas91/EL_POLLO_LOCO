@@ -4,8 +4,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-
     level = level1;
+    statusBar = new Statusbar();
     
 
     constructor(canvas, keyboard) {
@@ -19,17 +19,18 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.statusBar.world = this;
     }
 
     checkCollisons() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    this.character.energy -= 2;
-                    console.log('Losing Energy' , this.character.energy);
+                    this.character.hit();
+                    this.statusBar.setPercantage(this.character.energy);
                 }
             });
-        }, 10);
+        }, 200);
     }
 
     draw() {
@@ -39,6 +40,9 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
         

@@ -1,49 +1,34 @@
-class MovableObject {
-    positionX = 80;
-    positionY = 100;
-    img;
-    width = 100;
-    height = 150;
-    imageCache = {};
+class MovableObject extends DrawableObject {
     speed = 0.15;
     speedY = 0;
     acceleration = 1;
-    currentImage = 0;
     otherDirection = false;
     energy = 100;
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach(path => {
-            this.img = new Image();
-            this.img.src = path;
-            this.imageCache[path] = this.img;
-        });
-    }
-    
-    draw(ctx) {
-        ctx.drawImage(this.img, this.positionX, this.positionY, this.width, this.height);
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Coin || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.positionX, this.positionY, this.width, this.height);
-            ctx.stroke();
-        }
-    }
+    lastHit = 0;
 
     isColliding (obj) {
         return  this.positionX + this.width > obj.positionX && 
                 this.positionX < (obj.positionX + obj.width) && 
                 this.positionY + this.height > obj.positionY &&
                 this.positionY < (obj.positionY + obj.height);
+    }
+
+    hit() {
+        this.energy -= 0.5;
+        if(this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isDead() {
+        return this.energy == 0;
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        return timepassed < 1;
     }
 
     moveRight() {
@@ -58,7 +43,7 @@ class MovableObject {
         let path = images[this.currentImage];
         this.img = this.imageCache[path];
         this.currentImage++;
-        if (this.currentImage >= this.IMAGES_WALKING.length) {
+        if (this.currentImage >= images.length) {
             this.currentImage = 0;
         }
     }
