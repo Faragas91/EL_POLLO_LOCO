@@ -6,6 +6,7 @@ body {
 
 canvas {
     background-color: black;
+    display: block;
 }
 
 .canvasBackground {
@@ -13,4 +14,16 @@ canvas {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+@media only screen and (max-width: 720px){ 
+    canvas {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
 }

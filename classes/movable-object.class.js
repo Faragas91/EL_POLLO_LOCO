@@ -28,7 +28,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
-        return timepassed < 1;
+        return timepassed < 5;
     }
 
     moveRight() {
@@ -58,7 +58,11 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.positionY < 130
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.positionY < 130
+        }
     }
 
     jump() {

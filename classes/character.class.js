@@ -77,10 +77,11 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => { 
-            if(this.isDead()) {
+            if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                console.log("HURT")
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
@@ -88,6 +89,6 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 100);
+        }, 50);
     }
 }
