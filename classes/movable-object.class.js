@@ -25,6 +25,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
+
         return this.energy == 0;
     }
 
@@ -46,10 +47,9 @@ class MovableObject extends DrawableObject {
             console.warn("Keine Bilder für die Animation gefunden.");
             return;
         }
-    
-        // Begrenze den Frame-Index auf gültige Werte
+
         if (this.currentImage >= images.length) {
-            this.currentImage = 0; // Animation neu starten
+            this.currentImage = 0;
         }
     
         let path = images[this.currentImage];
@@ -66,10 +66,8 @@ class MovableObject extends DrawableObject {
     
         this.img = this.imageCache[path];
         this.currentImage++;
+
     }
-    
-    
-    
 
     applyGravity() {
         setInterval(() => {
