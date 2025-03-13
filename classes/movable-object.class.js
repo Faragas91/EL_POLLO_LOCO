@@ -14,11 +14,13 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 0.5;
+        this.energy -= 5;
+        console.log("HIT! Energy:", this.energy);
         if(this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
+            console.log("lastHit updated:", this.lastHit);
         }
     }
 
@@ -28,7 +30,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
-        return timepassed < 5;
+        return timepassed < 500;
     }
 
     moveRight() {
@@ -40,13 +42,34 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images) {
+        if (!images || images.length === 0) {
+            console.warn("Keine Bilder für die Animation gefunden.");
+            return;
+        }
+    
+        // Begrenze den Frame-Index auf gültige Werte
+        if (this.currentImage >= images.length) {
+            this.currentImage = 0; // Animation neu starten
+        }
+    
         let path = images[this.currentImage];
+    
+        if (!path) {
+            console.warn("Kein gültiger Bildpfad gefunden für Frame:", this.currentImage);
+            return;
+        }
+    
+        if (!this.imageCache[path]) {
+            console.warn("Bild nicht im Cache gefunden:", path);
+            return;
+        }
+    
         this.img = this.imageCache[path];
         this.currentImage++;
-        if (this.currentImage >= images.length) {
-            this.currentImage = 0;
-        }
     }
+    
+    
+    
 
     applyGravity() {
         setInterval(() => {

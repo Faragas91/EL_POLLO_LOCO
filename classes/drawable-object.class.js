@@ -10,22 +10,27 @@ class DrawableObject{
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
+        this.img.onload = () => console.log("Bild geladen:", path);
+        this.img.onerror = (e) => console.error("Bild konnte nicht geladen werden:", path, e);
     }
 
     loadImages(arr) {
         arr.forEach(path => {
-            this.img = new Image();
-            this.img.src = path;
-            this.imageCache[path] = this.img;
+            let img = new Image();
+            img.src = path;
+            img.onload = () => console.log("Bild geladen:", path);
+            img.onerror = (e) => console.error("Bild konnte nicht geladen werden:", path, e);
+            this.imageCache[path] = img;
         });
     }
+    
     
     draw(ctx) {
         try {
             ctx.drawImage(this.img, this.positionX, this.positionY, this.width, this.height);
         } catch(e) {
             console.warn('Error loading image', e);
-            console.log('Could not load image,' , this.img.src);
+            console.log('Could not load image,' , this.img);
         }
         
     }
