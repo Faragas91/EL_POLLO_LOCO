@@ -22,7 +22,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.statusBar.world = this;
+        // this.statusBar.world = this;
     }
 
     run() {
@@ -36,7 +36,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusBar.setPercantage(this.character.energy);
+                this.healthStatusBar.setPercantage(this.character.energy);
             }
         });
     }
