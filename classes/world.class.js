@@ -22,12 +22,13 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        // this.statusBar.world = this;
     }
 
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkCoinCollisions();
+            this.checkBottleCollisions();
             this.checkThrowObjects();
         }, 200);
     }
@@ -40,6 +41,27 @@ class World {
             }
         });
     }
+
+    checkCoinCollisions(){
+        this.level.coin.forEach((coin) => {
+            if (this.character.isColliding(coin)){
+                this.character.collectCoin();
+                this.coinStatusBar.setPercantage(this.character.foundCoin);
+            }
+        });
+    }
+
+    checkBottleCollisions(){
+        this.level.bottle.forEach((bottle) => {
+            if (this.character.isColliding(bottle)){
+                this.character.collectBottle();
+                console.log(this.character.collectBottle())
+                this.bottleStatusBar.setPercantage(this.character.foundBottle);
+                console.log(this.bottleStatusBar.setPercantage(this.character.foundBottle))
+            }
+        });
+    }
+
 
     checkThrowObjects() {
         if (this.keyboard.THROW) {
@@ -62,6 +84,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coin);
+        this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.throwableObjects);
         
         this.ctx.translate(-this.camera_x, 0);

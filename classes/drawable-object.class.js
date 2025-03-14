@@ -36,12 +36,17 @@ class DrawableObject{
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Collectibles || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.positionX, this.positionY, this.width, this.height);
-            ctx.stroke();
-        }
+        if (this instanceof Character || 
+            this instanceof NormalChicken || 
+            this instanceof LittleChicken || 
+            this instanceof Bottle || 
+            this instanceof Coin || 
+            this instanceof Endboss) {
+                ctx.beginPath();
+                ctx.lineWidth = '5';
+                ctx.strokeStyle = 'blue';
+                ctx.rect(this.positionX, this.positionY, this.width, this.height);
+                ctx.stroke();
+            }
     }
 }

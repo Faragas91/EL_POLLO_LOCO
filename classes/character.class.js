@@ -1,8 +1,4 @@
 class Character extends MovableObject {
-    positionY = 130;
-    width = 150;
-    height = 300;
-    speed = 10;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -69,6 +65,10 @@ class Character extends MovableObject {
     idleTime = 0;
     isLongIdle = false;
     isMoving;
+    positionY = 130;
+    width = 150;
+    height = 300;
+    speed = 10;
     
     constructor() {
         super();
@@ -79,6 +79,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
+        this.groundLevel = 130;
         this.applyGravity();
         this.animateCharacter();
     }

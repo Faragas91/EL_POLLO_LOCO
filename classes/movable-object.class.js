@@ -5,8 +5,11 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     energy = 100;
     lastHit = 0;
-
-    isColliding (obj) {
+    groundLevel = 130;
+    foundCoin = 0;
+    foundBottle = 0;
+    
+    isColliding(obj) {
         return  this.positionX + this.width > obj.positionX && 
                 this.positionX < (obj.positionX + obj.width) && 
                 this.positionY + this.height > obj.positionY &&
@@ -14,7 +17,7 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
+        this.energy -= 2;
         console.log("HIT! Energy:", this.energy);
         if(this.energy < 0) {
             this.energy = 0;
@@ -53,7 +56,7 @@ class MovableObject extends DrawableObject {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.positionY -= this.speedY;
                 this.speedY -= this.acceleration; 
-            }
+            } 
         }, 1000 / 25);
     }
 
@@ -61,11 +64,46 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.positionY < 130
+            return this.positionY < this.groundLevel;
         }
     }
 
     jump() {
-        this.speedY = 15;
+        if (this.positionY >= this.groundLevel) {
+            this.speedY = 15;
+        }
     }
+
+    animateChicken(images) {
+        setInterval(() => { 
+            this.playAnimation(images);
+        }, 100);
+
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
+    }
+
+    collectCoin(){
+        this.foundCoin += 20;
+        console.log(this.foundCoin);
+    }
+
+    collectBottle(){
+        this.foundBottle += 20;
+        console.log(this.foundBottle);
+    }
+
 }
+
+
+// hit() {
+//     this.energy -= 0.1;
+//     console.log("HIT! Energy:", this.energy);
+//     if(this.energy < 0) {
+//         this.energy = 0;
+//     } else {
+//         this.lastHit = new Date().getTime();
+//         console.log("lastHit updated:", this.lastHit);
+//     }
+// }

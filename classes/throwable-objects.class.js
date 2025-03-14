@@ -25,6 +25,7 @@ class ThrowableObject extends MovableObject {
            this.positionX += 20; 
            this.playAnimation(this.IMAGES_THROW);
         }, 50);
+        // if (this.isColliding)
     }
 
 }
