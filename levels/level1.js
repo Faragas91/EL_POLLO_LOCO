@@ -1,11 +1,11 @@
 let level1 = new Level(
     [
-        // new NormalChicken(),
-        // new NormalChicken(),
-        // new NormalChicken(),
-        // new LittleChicken(),
-        // new LittleChicken(),
-        // new LittleChicken(),
+        new NormalChicken(),
+        new NormalChicken(),
+        new NormalChicken(),
+        new LittleChicken(),
+        new LittleChicken(),
+        new LittleChicken(),
         new Endboss(),
     ],
     [

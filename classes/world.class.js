@@ -55,9 +55,7 @@ class World {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle)){
                 this.character.collectBottle();
-                console.log(this.character.collectBottle())
                 this.bottleStatusBar.setPercantage(this.character.foundBottle);
-                console.log(this.bottleStatusBar.setPercantage(this.character.foundBottle))
             }
         });
     }
