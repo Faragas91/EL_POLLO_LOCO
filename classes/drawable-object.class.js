@@ -15,7 +15,7 @@ class DrawableObject{
     }
 
     loadImages(arr) {
-        arr.forEach(path => {
+        arr.forEach((path) => {
             let img = new Image();
             img.src = path;
             img.onload = () => console.log("Bild geladen:", path);

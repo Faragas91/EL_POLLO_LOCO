@@ -3,7 +3,6 @@ class Character extends MovableObject {
     width = 150;
     height = 300;
     speed = 10;
-    move = false;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -15,15 +14,13 @@ class Character extends MovableObject {
     ];
 
     IMAGES_JUMPING = [
-        'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
         'img/2_character_pepe/3_jump/J-38.png',
-        'img/2_character_pepe/3_jump/J-39.png'
+
     ];
 
     IMAGES_DEAD = [
@@ -71,6 +68,7 @@ class Character extends MovableObject {
     world;
     idleTime = 0;
     isLongIdle = false;
+    isMoving;
     
     constructor() {
         super();
@@ -108,7 +106,7 @@ class Character extends MovableObject {
                 this.jump();
             }
 
-            if (!this.move){
+            if (this.isMoving){
                 this.resetIdleTimer();
             } 
 
@@ -125,15 +123,16 @@ class Character extends MovableObject {
             } else {
                 if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
                     this.playAnimation(this.IMAGES_WALKING);
-                    this.move = true;
+                    this.isMoving = true;
                 } else {
-                    this.handleIdleAnimations();
+                    this.setIdleAnimations();
+                    this.isMoving = false;
                 }
             }
-        }, 100);
+        }, 150);
     }
 
-    handleIdleAnimations() {
+    setIdleAnimations() {
         if (
             !this.world.keyboard.RIGHT &&
             !this.world.keyboard.LEFT &&
@@ -144,7 +143,7 @@ class Character extends MovableObject {
         ) {
             this.idleTime += 80;
     
-            if (this.idleTime >= 15000) {
+            if (this.idleTime >= 1500) {
                 if (!this.isLongIdle) {
                     this.isLongIdle = true;
                     // this.playSnoringSound();
@@ -162,12 +161,11 @@ class Character extends MovableObject {
     }
     
     
-      resetIdleTimer() {
+    resetIdleTimer() {
         this.idleTime = 0;
         if (this.isLongIdle) {
-          this.isLongIdle = false;
-          // this.stopSnoringSound();
+            this.isLongIdle = false;
+            // this.stopSnoringSound();
         }
-      }
-
+    }
 }

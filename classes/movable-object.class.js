@@ -43,31 +43,11 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images) {
-        if (!images || images.length === 0) {
-            console.warn("Keine Bilder für die Animation gefunden.");
-            return;
-        }
-
-        if (this.currentImage >= images.length) {
-            this.currentImage = 0;
-        }
-    
-        let path = images[this.currentImage];
-    
-        if (!path) {
-            console.warn("Kein gültiger Bildpfad gefunden für Frame:", this.currentImage);
-            return;
-        }
-    
-        if (!this.imageCache[path]) {
-            console.warn("Bild nicht im Cache gefunden:", path);
-            return;
-        }
-    
+        let i = this.currentImage % images.length;
+        let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-
-    }
+      }
 
     applyGravity() {
         setInterval(() => {
@@ -87,6 +67,6 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 20;
+        this.speedY = 15;
     }
 }

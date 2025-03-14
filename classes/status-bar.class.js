@@ -8,23 +8,63 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
     ];
+    
+    IMAGES_COIN = [
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/40.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png'
+    ];
 
+    IMAGES_BOTTLE = [
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png',
+    ]
     percentage = 100;
 
-    constructor() {
+    constructor(type, x, y) {
         super();
-        this.loadImages(this.IMAGES_HEALTH);
-        this.positionX = 20;
-        this.positionY = 0;
+        this.positionX = x;
+        this.positionY = y;
         this.width = 200;
         this.height = 60;
-        this.setPercantage(100);
+        this.type = type;
+
+        if (this.type === 'endBossHealth') {
+            console.log('Boss');
+        } else {
+            this.loadImages(this.setImageType());
+            this.setPercantage(this.setStartPerentage());
+        }
     }
 
+    setImageType(){
+        if (this.type === 'health') {
+            return this.IMAGES_HEALTH;
+        } else if (this.type === 'coin') {
+            return this.IMAGES_COIN;
+        } else if (this.type === 'bottle') {
+            return this.IMAGES_BOTTLE;
+        }
+    }
+
+    setStartPerentage(){
+        if (this.type === 'health') {
+            return 100;
+        } else {
+            return 0;
+        }
+    }
 
     setPercantage(percentage){
         this.percentage = percentage;
-        let path = this.IMAGES_HEALTH[this.resolveImageIndex()];
+        let path = this.setImageType()[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
