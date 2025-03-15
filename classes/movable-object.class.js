@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
     groundLevel = 130;
     foundCoin = 0;
     foundBottle = 0;
+    rank = 'EndBoss';
     
     isColliding(obj) {
         return  this.positionX + this.width > obj.positionX && 
@@ -52,7 +53,7 @@ class MovableObject extends DrawableObject {
       }
 
     applyGravity() {
-        setInterval(() => {
+        this.gravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.positionY -= this.speedY;
                 this.speedY -= this.acceleration; 

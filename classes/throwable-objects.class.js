@@ -30,10 +30,28 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = 15;
         this.applyGravity();
-        setInterval(() => {
-           this.positionX += 20; 
-           this.playAnimation(this.IMAGES_THROW);
+        this.throwInterval = setInterval(() => {
+            this.positionX += 20; 
+            this.playAnimation(this.IMAGES_THROW);
         }, 50);
     }
 
+    splash() {
+        clearInterval(this.gravityInterval);
+        clearInterval(this.throwInterval);
+        this.loadImages(this.IMAGES_BOTTLE_SPLASH);
+
+        let splashInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+        }, 100);
+    
+        setTimeout(() => {
+            clearInterval(splashInterval);
+            let index = world.throwableObjects.indexOf(this);
+            if (index > -1) {
+                world.throwableObjects.splice(index, 1);
+            }
+        }, 600);
+    }
+    
 }

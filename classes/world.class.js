@@ -69,17 +69,16 @@ class World {
         if (this.keyboard.THROW && this.character.foundBottle !== 0) {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
-            console.log(bottle);
             this.bottleStatusBar.setPercantage(this.character.foundBottle -= 20);
             this.checkBottleToEnemieCollsions(bottle);
         }
     }
 
     checkBottleToEnemieCollsions() {
-        this.throwableObjects.forEach((bottle, bottleIndex) => {
-            this.level.enemies = this.level.enemies.filter((enemy, enemyIndex) => {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies = this.level.enemies.filter((enemy) => {
                 if (bottle.isColliding(enemy)) {
-                    this.throwableObjects.splice(bottleIndex, 1);
+                    bottle.splash();
                     return false;
                 }
                 return true;
