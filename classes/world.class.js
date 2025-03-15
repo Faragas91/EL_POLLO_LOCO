@@ -26,14 +26,15 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
-            this.checkCoinCollisions();
-            this.checkBottleCollisions();
+            this.checkCharacterToEnemyCollisions();
+            this.checkCharacterToCoinCollisions();
+            this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
+            this.checkBottleToEnemieCollsions();
         }, 200);
     }
 
-    checkCollisions() {
+    checkCharacterToEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -42,7 +43,7 @@ class World {
         });
     }
 
-    checkCoinCollisions(){
+    checkCharacterToCoinCollisions(){
         this.level.coin = this.level.coin.filter(coin => {
             if (this.character.isColliding(coin)){
                 this.character.collectCoin();
@@ -53,7 +54,7 @@ class World {
         });
     }
 
-    checkBottleCollisions(){
+    checkCharacterToBottleCollisions(){
         this.level.bottle = this.level.bottle.filter(bottle => {
             if (this.character.isColliding(bottle) && this.character.foundBottle !== 100){
                 this.character.collectBottle();
@@ -68,9 +69,24 @@ class World {
         if (this.keyboard.THROW && this.character.foundBottle !== 0) {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
+            console.log(bottle);
             this.bottleStatusBar.setPercantage(this.character.foundBottle -= 20);
+            this.checkBottleToEnemieCollsions(bottle);
         }
     }
+
+    checkBottleToEnemieCollsions() {
+        this.throwableObjects.forEach((bottle, bottleIndex) => {
+            this.level.enemies = this.level.enemies.filter((enemy, enemyIndex) => {
+                if (bottle.isColliding(enemy)) {
+                    this.throwableObjects.splice(bottleIndex, 1);
+                    return false;
+                }
+                return true;
+            });
+        });
+    }
+    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
