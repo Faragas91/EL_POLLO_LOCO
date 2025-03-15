@@ -84,16 +84,6 @@ class MovableObject extends DrawableObject {
         }, 1000 / 60);
     }
 
-    collectCoin(){
-        this.foundCoin += 20;
-        console.log(this.foundCoin);
-    }
-
-    collectBottle(){
-        this.foundBottle += 20;
-        console.log(this.foundBottle);
-    }
-
 }
 
 

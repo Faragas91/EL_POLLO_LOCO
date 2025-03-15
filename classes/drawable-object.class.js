@@ -49,4 +49,11 @@ class DrawableObject{
                 ctx.stroke();
             }
     }
+    collectCoin(){
+        this.foundCoin += 20;
+    }
+
+    collectBottle(){
+        this.foundBottle += 20;
+    }
 }

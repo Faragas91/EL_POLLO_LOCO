@@ -43,28 +43,32 @@ class World {
     }
 
     checkCoinCollisions(){
-        this.level.coin.forEach((coin) => {
+        this.level.coin = this.level.coin.filter(coin => {
             if (this.character.isColliding(coin)){
                 this.character.collectCoin();
                 this.coinStatusBar.setPercantage(this.character.foundCoin);
+                return false;
             }
+            return true;
         });
     }
 
     checkBottleCollisions(){
-        this.level.bottle.forEach((bottle) => {
-            if (this.character.isColliding(bottle)){
+        this.level.bottle = this.level.bottle.filter(bottle => {
+            if (this.character.isColliding(bottle) && this.character.foundBottle !== 100){
                 this.character.collectBottle();
                 this.bottleStatusBar.setPercantage(this.character.foundBottle);
+                return false;
             }
+            return true;
         });
     }
 
-
     checkThrowObjects() {
-        if (this.keyboard.THROW) {
+        if (this.keyboard.THROW && this.character.foundBottle !== 0) {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
+            this.bottleStatusBar.setPercantage(this.character.foundBottle -= 20);
         }
     }
 
