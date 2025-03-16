@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    endBoss = new Endboss();
     canvas;
     ctx;
     keyboard;
@@ -22,6 +23,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.endBoss.world = this;
     }
 
     run() {
@@ -76,15 +78,23 @@ class World {
 
     checkBottleToEnemieCollsions() {
         this.throwableObjects.forEach((bottle) => {
-            this.level.enemies = this.level.enemies.filter((enemy) => {
-                if (bottle.isColliding(enemy)) {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy) && !bottle.hasBeenHit) {
+                    bottle.hasBeenHit = true;
                     bottle.splash();
-                    return false;
+                    
+                    if (enemy instanceof Endboss) {
+                        enemy.energy = Math.max(0, enemy.energy - 25);
+                        enemy.hit();
+                    } else {
+                        this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+                    }
                 }
-                return true;
             });
         });
     }
+    
+    
     
 
     draw() {
