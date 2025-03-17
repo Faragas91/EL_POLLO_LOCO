@@ -50,9 +50,10 @@ class Endboss extends MovableObject {
     levelCapForBoss = 1700;
     level_end_x = 2200;
     speed = 10;
-    isMovingRight;
-    isMovingLeft;
+    isMovingRight = false;
+    isMovingLeft = false;
     alert = true;
+    isDeadAnimationPlayed = false;
 
     constructor() {
         super();
@@ -68,10 +69,8 @@ class Endboss extends MovableObject {
 
     animateEndboss() {
         setInterval(() => {
-            if (this.isDead()) {
-                return;
-            }
-    
+            if (this.isDeadAnimationPlayed) return;
+
             if (this.positionX > this.levelCapForBoss && this.isMovingLeft && !this.isMovingRight && !this.alert) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
@@ -88,18 +87,30 @@ class Endboss extends MovableObject {
         }, 150);
 
         setInterval(() => { 
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
-            } else if (this.isHurt()) {
+            if (this.isDeadAnimationPlayed) return;
+            if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
             }
         }, 300);
+
+        setInterval(() => {
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
+                this.isDeadAnimationPlayed = true;
+            } 
+        }, 300);
     }
 
+
     toggleDirection() {
+        if (this.isDeadAnimationPlayed) return;
         if (this.positionX <= this.levelCapForBoss) {
             this.isMovingLeft = false;
-            this.isMovingRight = true;
+            this.isMovingRight = false;
+            this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
+            setTimeout(() => {
+                this.isMovingRight = true;
+            }, 600); 
         } else if (this.positionX >= this.level_end_x) {
             this.isMovingRight = false;
             this.isMovingLeft = false;
@@ -107,6 +118,7 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
                 setTimeout(() => {
                     this.alert = false;
+                    this.isMovingLeft = true;
                 }, 10000);
             } else {
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
