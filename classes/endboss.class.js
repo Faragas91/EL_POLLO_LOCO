@@ -41,7 +41,6 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
-    world;
     positionY = 50;
     height = 400;
     width = 250;
@@ -54,6 +53,12 @@ class Endboss extends MovableObject {
     isMovingLeft = false;
     alert = true;
     isDeadAnimationPlayed = false;
+    offset = {
+        top: 0,
+        left: 40,
+        right: 40,
+        bottom: 0,
+    }
 
     constructor() {
         super();
@@ -69,6 +74,7 @@ class Endboss extends MovableObject {
 
     animateEndboss() {
         setInterval(() => {
+
             if (this.isDeadAnimationPlayed) return;
 
             if (this.positionX > this.levelCapForBoss && this.isMovingLeft && !this.isMovingRight && !this.alert) {

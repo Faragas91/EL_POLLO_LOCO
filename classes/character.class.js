@@ -69,6 +69,12 @@ class Character extends MovableObject {
     width = 150;
     height = 300;
     speed = 10;
+    offset = {
+        top: 200,
+        left: 0,
+        right: 40,
+        bottom: 0,
+    }
     
     constructor() {
         super();
@@ -105,6 +111,7 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
+                this.resetIdleTimer();
             }
 
             if (this.isMoving){
@@ -144,7 +151,7 @@ class Character extends MovableObject {
         ) {
             this.idleTime += 80;
     
-            if (this.idleTime >= 1500) {
+            if (this.idleTime >= 15000) {
                 if (!this.isLongIdle) {
                     this.isLongIdle = true;
                     // this.playSnoringSound();

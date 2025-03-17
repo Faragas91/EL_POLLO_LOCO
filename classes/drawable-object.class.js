@@ -10,16 +10,12 @@ class DrawableObject{
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
-        this.img.onload = () => console.log("Bild geladen:", path);
-        this.img.onerror = (e) => console.error("Bild konnte nicht geladen werden:", path, e);
     }
 
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
             img.src = path;
-            img.onload = () => console.log("Bild geladen:", path);
-            img.onerror = (e) => console.error("Bild konnte nicht geladen werden:", path, e);
             this.imageCache[path] = img;
         });
     }
@@ -36,6 +32,23 @@ class DrawableObject{
     }
 
     drawFrame(ctx) {
+        if (
+          this instanceof Character ||
+          this instanceof Endboss || 
+          this instanceof NormalChicken || 
+          this instanceof LittleChicken || 
+          this instanceof Bottle || 
+          this instanceof Coin
+        ) {
+          ctx.beginPath();
+          ctx.lineWidth = "5";
+          ctx.strokeStyle = "blue";
+          ctx.rect(this.positionX, this.positionY, this.width, this.height);
+          ctx.stroke();
+        }
+      }
+
+    drawOffsetFrame(ctx) {
         if (this instanceof Character || 
             this instanceof NormalChicken || 
             this instanceof LittleChicken || 
@@ -44,12 +57,13 @@ class DrawableObject{
             this instanceof ThrowableObject ||
             this instanceof Endboss) {
                 ctx.beginPath();
-                ctx.lineWidth = '2';
-                ctx.strokeStyle = 'blue';
-                ctx.rect(this.positionX, this.positionY, this.width, this.height);
+                ctx.lineWidth = '3';
+                ctx.strokeStyle = 'red';
+                ctx.rect(this.positionX + this.offset.left, this.positionY + this.offset.top, this.width - this.offset.right -this.offset.left, this.height - this.offset.top - this.offset.bottom)
                 ctx.stroke();
             }
     }
+
     collectCoin(){
         this.foundCoin += 20;
     }
