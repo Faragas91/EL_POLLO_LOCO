@@ -40,7 +40,8 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
-
+    
+    world;
     positionY = 50;
     height = 400;
     width = 250;
@@ -74,7 +75,6 @@ class Endboss extends MovableObject {
 
     animateEndboss() {
         setInterval(() => {
-
             if (this.isDeadAnimationPlayed) return;
 
             if (this.positionX > this.levelCapForBoss && this.isMovingLeft && !this.isMovingRight && !this.alert) {
@@ -98,7 +98,7 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
             }
         }, 300);
-
+        
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
@@ -110,28 +110,30 @@ class Endboss extends MovableObject {
 
     toggleDirection() {
         if (this.isDeadAnimationPlayed) return;
+    
         if (this.positionX <= this.levelCapForBoss) {
             this.isMovingLeft = false;
             this.isMovingRight = false;
             this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
             setTimeout(() => {
                 this.isMovingRight = true;
-            }, 600); 
+            }, 1000); 
         } else if (this.positionX >= this.level_end_x) {
             this.isMovingRight = false;
             this.isMovingLeft = false;
-            if (this.alert) {
+            if (this.alert) { 
                 this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
                 setTimeout(() => {
-                    this.alert = false;
                     this.isMovingLeft = true;
-                }, 10000);
-            } else {
+                    this.alert = false; 
+                }, 10000);  
+            } else { 
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
                 setTimeout(() => {
                     this.isMovingLeft = true;
-                }, 600); 
+                }, 1000); 
             }
         }
     }
+    
 }

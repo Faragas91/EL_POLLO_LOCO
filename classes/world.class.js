@@ -1,17 +1,17 @@
 class World {
     character = new Character();
-    endBoss = new Endboss();
+    endboss = new Endboss();
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     level = level1;
-    healthStatusBar = new Statusbar('health', 20, 0);
-    coinStatusBar = new Statusbar('coin', 20, 50);
-    bottleStatusBar = new Statusbar('bottle', 20, 100);
-    // endBossStatusBar = new Statusbar('endbossHealth', 600, 0);
+    healthStatusBar = new Statusbar('health', 20, 0, 200, 60);
+    coinStatusBar = new Statusbar('coin', 20, 50, 200, 60);
+    bottleStatusBar = new Statusbar('bottle', 20, 100, 200, 60);
+    endbossStatusBar = new Statusbar('endbossHealth', 500, 10, 200, 40);
+    endbossSymbol = new Statusbar('endbossSymbol', 655, 5, 50, 60);
     throwableObjects = [];
-    
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -23,7 +23,7 @@ class World {
     }
 
     setWorld() {
-        this.endBoss.world = this;
+        this.endboss.world = this;
         this.character.world = this;
     }
 
@@ -34,7 +34,21 @@ class World {
             this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
             this.checkBottleToEnemieCollsions();
+            this.checkGameOver();
         }, 200);
+    }
+
+    checkGameOver() {
+        this.level.enemies.forEach((enemy) => { 
+            if (enemy instanceof Endboss) {
+                if (enemy.energy <= 0){
+                    console.log('Lost');
+                }
+            }
+        })
+        if (this.character.energy <= 0) {
+            console.log('Lost');
+        }
     }
 
     checkCharacterToEnemyCollisions() {
@@ -91,7 +105,9 @@ class World {
                     bottle.splash();
                     if (enemy instanceof Endboss) {
                         enemy.energy = Math.max(0, enemy.energy - 25);
+                        this.endbossStatusBar.setPercantage(enemy.energy)
                         enemy.hit();
+                        
                     } else {
                         enemy.energy = 0;
                         setTimeout(() => {
@@ -115,7 +131,8 @@ class World {
         this.addToMap(this.healthStatusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
-        // this.addToMap(this.endBossStatusBar);
+        this.addToMap(this.endbossStatusBar);
+        this.addToMap(this.endbossSymbol);
         this.ctx.translate(this.camera_x, 0);
         
         this.addObjectsToMap(this.level.coin);
@@ -129,6 +146,7 @@ class World {
             self.draw();
         });
     }
+
 
     addObjectsToMap(objects) {
         objects.forEach(object => {

@@ -22,13 +22,21 @@ class DrawableObject{
     
     
     draw(ctx) {
-        try {
+        if (this.type === 'endbossHealth') {
+            ctx.save();
+            ctx.translate(this.positionX + this.width, this.positionY);
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.img, 0, 0, this.width, this.height);
+            ctx.restore();
+        } else {
+            try {
+                ctx.drawImage(this.img, this.positionX, this.positionY, this.width, this.height);
+            } catch(e) {
+                console.warn('Error loading image', e);
+                console.log('Could not load image,' , this.img);
+            }
             ctx.drawImage(this.img, this.positionX, this.positionY, this.width, this.height);
-        } catch(e) {
-            console.warn('Error loading image', e);
-            console.log('Could not load image,' , this.img);
         }
-        
     }
 
     drawFrame(ctx) {
