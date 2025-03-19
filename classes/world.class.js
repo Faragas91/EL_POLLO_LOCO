@@ -14,6 +14,15 @@ class World {
     throwableObjects = [];
     setEndbossHealthbar;
 
+    coinFindSound = new Sound('audio/coin.mp3');
+    bottleFindSound = new Sound('audio/bottle.mp3');
+    bottleSplashSound = new Sound('audio/splash.mp3');
+    hurtSound = new Sound('audio/hurt.mp3');
+    normalChickenDeadSound = new Sound('audio/chicken.mp3');
+    littleChickenDeadSound = new Sound('audio/little-chicken.mp3');
+    endbossHurtSound = new Sound('audio/endboss-hurt.mp3');
+    endbossAlertSound = new Sound('audio/endboss.mp3');
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
@@ -34,7 +43,7 @@ class World {
             this.checkCharacterToCoinCollisions();
             this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
-            this.checkBottleToEnemieCollsions();
+            this.checkBottleToEnemieCollisions();
             this.checkGameOver();
         }, 200);
     }
@@ -57,10 +66,17 @@ class World {
             if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0 ){
                 this.character.speedY = 20;
                 enemy.energy = 0;
+                if (enemy instanceof NormalChicken) {
+                    this.normalChickenDeadSound.playSound();
+                } 
+                if (enemy instanceof LittleChicken) {
+                    this.littleChickenDeadSound.playSound();
+                }
                 setTimeout(() => {
                     this.level.enemies = this.level.enemies.filter(e => e !== enemy);
                 }, 1000);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
+                this.hurtSound.playSound();
                 this.character.hit();
                 this.healthStatusBar.setPercantage(this.character.energy);
             }
@@ -71,6 +87,7 @@ class World {
         this.level.coin = this.level.coin.filter(coin => {
             if (this.character.isColliding(coin)){
                 this.character.collectCoin();
+                this.coinFindSound.playSound();
                 this.coinStatusBar.setPercantage(this.character.foundCoin);
                 return false;
             }
@@ -82,6 +99,7 @@ class World {
         this.level.bottle = this.level.bottle.filter(bottle => {
             if (this.character.isColliding(bottle) && this.character.foundBottle !== 100){
                 this.character.collectBottle();
+                this.bottleFindSound.playSound();
                 this.bottleStatusBar.setPercantage(this.character.foundBottle);
                 return false;
             }
@@ -94,18 +112,20 @@ class World {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
             this.bottleStatusBar.setPercantage(this.character.foundBottle -= 20);
-            this.checkBottleToEnemieCollsions(bottle);
+            this.checkBottleToEnemieCollisions(bottle);
         }
     }
 
-    checkBottleToEnemieCollsions() {
+    checkBottleToEnemieCollisions() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy) && !bottle.hasBeenHit) {
                     bottle.hasBeenHit = true;
                     bottle.splash();
+                    this.bottleSplashSound.playSound();
                     if (enemy instanceof Endboss) {
                         enemy.energy = Math.max(0, enemy.energy - 25);
+                        this.endbossHurtSound.playSound();
                         this.endbossStatusBar.setPercantage(enemy.energy)
                         enemy.hit();
                         
@@ -133,13 +153,17 @@ class World {
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
 
-        if (this.character.positionX >= this.level.levelCapForBoss) {
+        if (this.character.positionX >= this.level.levelCapForBoss && !this.setEndbossHealthbar) {
             this.setEndbossHealthbar = true;
+            this.endbossAlertSound.playSound();
         }
+
+
 
         if (this.setEndbossHealthbar) {
             this.addToMap(this.endbossStatusBar);
             this.addToMap(this.endbossSymbol);
+
         }
 
         this.ctx.translate(this.camera_x, 0);

@@ -61,6 +61,8 @@ class Endboss extends MovableObject {
         bottom: 0,
     }
 
+    endbossAttackSound = new Sound('audio/angry-chicken.mp3');
+
     constructor() {
         super();
         this.loadImage(this.IMAGES_ENDBOSS_ALERT[0]);
@@ -114,6 +116,7 @@ class Endboss extends MovableObject {
         if (this.positionX <= this.levelCapForBoss) {
             this.isMovingLeft = false;
             this.isMovingRight = false;
+            this.endbossAttackSound.playSound();
             this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
             setTimeout(() => {
                 this.isMovingRight = true;
@@ -128,6 +131,7 @@ class Endboss extends MovableObject {
                     this.alert = false; 
                 }, 10000);  
             } else { 
+                this.endbossAttackSound.playSound();
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
                 setTimeout(() => {
                     this.isMovingLeft = true;
