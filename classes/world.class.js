@@ -12,6 +12,7 @@ class World {
     endbossStatusBar = new Statusbar('endbossHealth', 500, 10, 200, 40);
     endbossSymbol = new Statusbar('endbossSymbol', 655, 5, 50, 60);
     throwableObjects = [];
+    setEndbossHealthbar;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -131,8 +132,16 @@ class World {
         this.addToMap(this.healthStatusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
-        this.addToMap(this.endbossStatusBar);
-        this.addToMap(this.endbossSymbol);
+
+        if (this.character.positionX >= this.level.levelCapForBoss) {
+            this.setEndbossHealthbar = true;
+        }
+
+        if (this.setEndbossHealthbar) {
+            this.addToMap(this.endbossStatusBar);
+            this.addToMap(this.endbossSymbol);
+        }
+
         this.ctx.translate(this.camera_x, 0);
         
         this.addObjectsToMap(this.level.coin);
