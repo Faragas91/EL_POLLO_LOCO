@@ -106,4 +106,10 @@ class MovableObject extends DrawableObject {
         }, 1000 / 60);
     }
 
+    animateCoins(images) {
+        setInterval(() => {
+            this.playAnimation(images);
+        }, 300);
+    }
+
 }

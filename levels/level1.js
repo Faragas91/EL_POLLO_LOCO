@@ -33,11 +33,11 @@ let level1 = new Level(
         new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 720*3),
     ],
     [
-        new Coin('img/8_coin/coin_1.png', 600 + Math.random() * 100, 100 + Math.random() * 200),
-        new Coin('img/8_coin/coin_1.png', 800 + Math.random() * 100, 100 + Math.random() * 200),
-        new Coin('img/8_coin/coin_1.png', 1000 + Math.random() * 100, 100 + Math.random() * 200),
-        new Coin('img/8_coin/coin_1.png', 1600 + Math.random() * 100, 100 + Math.random() * 200),
-        new Coin('img/8_coin/coin_1.png', 2000 + Math.random() * 100, 100 + Math.random() * 200),
+        new Coin(),
+        new Coin(),
+        new Coin(),
+        new Coin(),
+        new Coin(),
     ],
     [
         new Bottle('img/6_salsa_bottle/2_salsa_bottle_on_ground.png', 500 + Math.random() * 100, 330),

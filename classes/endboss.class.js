@@ -55,7 +55,7 @@ class Endboss extends MovableObject {
     alert = true;
     isDeadAnimationPlayed = false;
     offset = {
-        top: 0,
+        top: 70,
         left: 40,
         right: 40,
         bottom: 0,
