@@ -36,7 +36,6 @@ class World {
         this.endboss.world = this;
         this.character.world = this;
     }
-    
 
     run() {
         setInterval(() => {
