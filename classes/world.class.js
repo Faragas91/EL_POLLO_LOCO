@@ -1,6 +1,5 @@
 class World {
     character = new Character();
-    endboss = new Endboss();
     canvas;
     ctx;
     keyboard;
@@ -33,9 +32,11 @@ class World {
     }
 
     setWorld() {
+        this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss); // Endboss aus dem Level holen
         this.endboss.world = this;
         this.character.world = this;
     }
+    
 
     run() {
         setInterval(() => {
@@ -77,7 +78,7 @@ class World {
                 }, 1000);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
                 this.hurtSound.playSound();
-                this.character.hit();
+                this.character.hit(2);
                 this.healthStatusBar.setPercantage(this.character.energy);
             }
         });
@@ -124,11 +125,9 @@ class World {
                     bottle.splash();
                     this.bottleSplashSound.playSound();
                     if (enemy instanceof Endboss) {
-                        enemy.energy = Math.max(0, enemy.energy - 25);
                         this.endbossHurtSound.playSound();
                         this.endbossStatusBar.setPercantage(enemy.energy)
-                        enemy.hit();
-                        
+                        enemy.hit(30);
                     } else {
                         enemy.energy = 0;
                         setTimeout(() => {

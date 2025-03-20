@@ -33,8 +33,8 @@ class MovableObject extends DrawableObject {
         return this.isColliding(obj) && !this.isCollidingFromAbove(obj);
     }
     
-    hit() {
-        this.energy -= 2;
+    hit(damage) {
+        this.energy -= damage;
         if(this.energy < 0) {
             this.energy = 0;
         } else {
