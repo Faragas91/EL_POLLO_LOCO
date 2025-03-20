@@ -2,10 +2,22 @@ let canvas;
 let world;
 let keyboard = new Keybord();
 
+function showStartScreen() {
+    document.getElementById("start-screen").classList.remove("hidden");
+    document.getElementById("game-container").classList.add("hidden");
+}
+
+function startGame() {
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("game-container").classList.remove("hidden");
+    init();
+}
+
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
 }
+
 window.addEventListener("keydown", (event) => {
     switch (event.key) {
         case 'a': 

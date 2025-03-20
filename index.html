@@ -15,6 +15,8 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/startScreen.css">
+    <link rel="stylesheet" href="/css/endScreen.css">
 
     <!-- Classes -->
     <script src="/classes/level.class.js" defer></script>
@@ -34,19 +36,28 @@
     <script src="/classes/bottle.class.js" defer></script>
     <script src="/classes/sound.class.js" defer></script>
     
-    
-
     <!-- JavaScript -->
     <script src="/levels/level1.js"defer></script>
     <script src="/js/game.js" defer></script>
 </head>
-<body onload="init()">
+<body onload="showStartScreen()">
 
     <h1>El pollo loco</h1>
 
-    <canvas class="canvasBackground" id="canvas" width ="720" height ="480">
+    <div class="start_screen" id="start-screen">
+        <img src="/img/9_intro_outro_screens/start/startscreen_1.png" width ="720" height ="480">
+        <div class="start_buttons-container">        
+            <button class="play_button start_screen_buttons" onclick="startGame()">Play</button>
+            <button class="game_control start_screen_buttons" onclick="showGameControl()">Controller</button>
+            <button class="info start_screen_buttons" onclick="showInfo()">Info</button>
+        </div>
+    </div>
 
-    </canvas>
+
+    <div class="game_container hidden" id="game-container">
+        <canvas class="canvas_background" id="canvas" width ="720" height ="480">
+        </canvas>
+    </div>
     
 </body>
 </html>

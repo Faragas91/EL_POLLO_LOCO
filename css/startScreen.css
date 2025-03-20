@@ -1,0 +1,54 @@
+.hidden {
+    display: none;
+}
+
+.start_screen {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.start_screen img {
+    width: 720px;
+    height: 480px;
+}
+
+.start_buttons-container {
+    position: absolute;
+    display: flex;
+    margin-top: 20px;
+    gap: 32px;
+}
+
+.start_screen_buttons {
+    padding: 15px 30px;
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    background-color: rgba(255, 204, 0, 1.0);
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.start_screen_buttons:hover {
+    background-color: rgb(226, 181, 1);
+}
+
+.play_button {
+    background-image: url('/img/10_own_pictures/play.svg');
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.game_control {
+    background-image: url('/img/10_own_pictures/controller.svg');
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.info {
+    background-image: url('/img/10_own_pictures/info.svg');
+    background-repeat: no-repeat;
+    background-position: left;
+}
