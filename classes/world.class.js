@@ -33,7 +33,7 @@ class World {
     }
 
     setWorld() {
-        this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss); // Endboss aus dem Level holen
+        this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss);
         this.endboss.world = this;
         this.character.world = this;
     }
