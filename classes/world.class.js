@@ -13,7 +13,7 @@ class World {
     throwableObjects = [];
     setEndbossHealthbar;
 
-    backgroundMusic = new Sound('audio/background-music.mp3');
+    backgroundMusic = new Sound('audio/background-music.mp3', true);
     coinFindSound = new Sound('audio/coin.mp3');
     bottleFindSound = new Sound('audio/bottle.mp3');
     bottleSplashSound = new Sound('audio/splash.mp3');
@@ -46,9 +46,9 @@ class World {
             this.checkThrowObjects();
             this.checkBottleToEnemieCollisions();
             this.checkGameOver();
-            this.backgroundMusic.playSound();
         }, 200);
     }
+    
 
     checkGameOver() {
         this.level.enemies.forEach((enemy) => { 
