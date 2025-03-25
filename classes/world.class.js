@@ -13,15 +13,15 @@ class World {
     throwableObjects = [];
     setEndbossHealthbar;
 
-    backgroundMusic = new Sound('audio/background-music.mp3', true);
-    coinFindSound = new Sound('audio/coin.mp3');
-    bottleFindSound = new Sound('audio/bottle.mp3');
-    bottleSplashSound = new Sound('audio/splash.mp3');
-    hurtSound = new Sound('audio/hurt.mp3');
-    normalChickenDeadSound = new Sound('audio/chicken.mp3');
-    littleChickenDeadSound = new Sound('audio/little-chicken.mp3');
-    endbossHurtSound = new Sound('audio/endboss-hurt.mp3');
-    endbossAlertSound = new Sound('audio/endboss.mp3');
+    backgroundMusic = new Audio('audio/background-music.mp3', true);
+    coinFindSound = new Audio('audio/coin.mp3');
+    bottleFindSound = new Audio('audio/bottle.mp3');
+    bottleSplashSound = new Audio('audio/splash.mp3');
+    hurtSound = new Audio('audio/hurt.mp3');
+    normalChickenDeadSound = new Audio('audio/chicken.mp3');
+    littleChickenDeadSound = new Audio('audio/little-chicken.mp3');
+    endbossHurtSound = new Audio('audio/endboss-hurt.mp3');
+    endbossAlertSound = new Audio('audio/endboss.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -30,6 +30,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.loadSounds();
     }
 
     setWorld() {
@@ -49,6 +50,17 @@ class World {
         }, 200);
     }
     
+    loadSounds() {
+        soundReference.addSound(this.backgroundMusic);
+        soundReference.addSound(this.coinFindSound);
+        soundReference.addSound(this.bottleFindSound);
+        soundReference.addSound(this.bottleSplashSound);
+        soundReference.addSound(this.hurtSound);
+        soundReference.addSound(this.normalChickenDeadSound);
+        soundReference.addSound(this.littleChickenDeadSound);
+        soundReference.addSound(this.endbossAlertSound);
+        soundReference.addSound(this.endbossHurtSound);
+    }
 
     checkGameOver() {
         this.level.enemies.forEach((enemy) => { 
