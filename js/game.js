@@ -2,15 +2,13 @@ let canvas;
 let world;
 let keyboard = new Keybord();
 
-// let introMusic = new Audio('audio/intro-music.mp3');
-// let gameMusic = new Audio('audio/bg-music.mp3');
+let introMusic = new Audio('audio/intro-music.mp3');
+let gameMusic = new Audio('audio/background-music.mp3');
 
-// // Configure background music
-// introMusic.loop = true;
-// gameMusic.loop = true;
-// soundManager.addSound(introMusic);
-// soundManager.addSound(gameMusic);
-// soundManager.updateButtonUI();
+// Configure background music
+soundReference.addSoundToList(introMusic);
+soundReference.addSoundToList(gameMusic);
+soundReference.updateButtonIcon();
 
 function toggleSoundButton() {
     if (typeof soundReference !== "undefined" && soundReference.toggleMute) {
@@ -18,13 +16,19 @@ function toggleSoundButton() {
     }
 }
 
-// document.addEventListener('click', (event) => {
-//     let playButton = document.getElementById('playButton');
-//     if (!playButton.contains(event.target) && introMusic.paused) {
-//         introMusic.volume = 0.1;
-//         introMusic.play();
-//     }
-// }, { once: true });
+// Play intro music on first click or after a delay
+function playIntroMusic() {
+    introMusic.loop = true;
+    introMusic.volume = 0.1;
+    introMusic.play();
+}
+
+document.addEventListener('click', (event) => {
+    let startGameButton = document.getElementById('start-game-button');
+    if (!startGameButton.contains(event.target)) {
+        playIntroMusic();
+    }
+}, { once: true });
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -32,19 +36,25 @@ function init() {
 }
 
 function showStartScreen() {
-    document.getElementById("start-screen").classList.remove("hidden");
-    document.getElementById("game-container").classList.add("hidden");
+    const startScreen = document.querySelector(".start_screen");
+    const gameScreen = document.querySelector(".game_container");
+    
+    startScreen.classList.remove("hidden");
+    gameScreen.classList.add("hidden");
 }
 
 function startGame() {
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("game-container").classList.remove("hidden");
+    const startScreen = document.querySelector(".start_screen");
+    const gameScreen = document.querySelector(".game_container");
+
+    startScreen.classList.add("hidden");
+    gameScreen.classList.remove("hidden");
     init();
 
-    // introMusic.pause();
-    // introMusic.currentTime = 0;
-    // gameMusic.volume = 0.1;
-    // gameMusic.play();
+    introMusic.pause();
+    introMusic.currentTime = 0;
+    gameMusic.volume = 0.1;
+    gameMusic.play();
 }
 
 function fullscreenButton() {

@@ -1,5 +1,5 @@
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .start_screen {
@@ -60,6 +60,18 @@
 
 .switch_buttons button:hover {
     background-color: rgb(226, 181, 1);
+}
+
+.game_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-left: 60px;
+}
+
+.display-flex {
+    display: flex !important;
 }
 
 .play_button {
