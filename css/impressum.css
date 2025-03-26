@@ -1,0 +1,30 @@
+.impressum__container {
+    max-width: 1440px;
+    margin: auto;
+    text-align: center;
+}
+
+@media  (max-width: 1000px) {
+
+    .impressum_main_container {
+        padding: 136px 40px 32px 40px;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .impressum_main_container {
+        padding-bottom: 128px;
+    }
+}
+
+@media (max-width: 471px) {
+
+    .impressum_main_container {
+        padding: 136px 16px 136px 16px;
+    }
+}
+
+
+
+

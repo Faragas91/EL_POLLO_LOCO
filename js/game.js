@@ -30,6 +30,12 @@ document.addEventListener('click', (event) => {
     }
 }, { once: true });
 
+
+function showGameInfo() {
+    const offScreenMenu = document.getElementById('game-info');
+    offScreenMenu.classList.toggle('active');
+}
+
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);

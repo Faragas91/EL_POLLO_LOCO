@@ -1,0 +1,49 @@
+.game__info {
+    background-color: #e8a35528;
+    height: 95vh;
+    width: 100%;
+    max-width: 250px;
+    position: fixed;
+    right: -500px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: end;
+    transition: .3s ease;
+    text-align: center;
+}
+
+.game__info-link {
+    color: black;
+    font-size: 24px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.game__info-link:hover {
+    color: #E8A355;
+    text-decoration: underline #E8A355 5px;
+    text-underline-offset: 4px;
+}
+
+.game__info ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.game__info li {
+    font-size: 32px;
+    display: flex;
+}
+
+.game__info.active {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: .3s ease;
+    right: 0px;
+    max-width: 200px;
+}
