@@ -20,8 +20,8 @@ class World {
     hurtSound = new Audio('audio/hurt.mp3');
     normalChickenDeadSound = new Audio('audio/chicken.mp3');
     littleChickenDeadSound = new Audio('audio/little-chicken.mp3');
-    endbossHurtSound = new Audio('audio/endboss-hurt.mp3');
     endbossAlertSound = new Audio('audio/endboss.mp3');
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -59,7 +59,6 @@ class World {
         soundReference.addSoundToList(this.normalChickenDeadSound);
         soundReference.addSoundToList(this.littleChickenDeadSound);
         soundReference.addSoundToList(this.endbossAlertSound);
-        soundReference.addSoundToList(this.endbossHurtSound);
     }
 
     playSound(sound, volume, loop = false) {
@@ -150,7 +149,6 @@ class World {
                     bottle.splash();
                     this.playSound(this.bottleSplashSound, 0.1);
                     if (enemy instanceof Endboss) {
-                        this.playSound(this.endbossHurtSound, 0.1);
                         this.endbossStatusBar.setPercantage(enemy.energy)
                         enemy.hit(30);
                     } else {
@@ -185,7 +183,7 @@ class World {
         if (this.setEndbossHealthbar) {
             this.addToMap(this.endbossStatusBar);
             this.addToMap(this.endbossSymbol);
-
+            
         }
 
         this.ctx.translate(this.camera_x, 0);

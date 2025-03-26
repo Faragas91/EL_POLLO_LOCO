@@ -60,12 +60,54 @@ function startGame() {
     
     introMusic.pause();
     introMusic.currentTime = 0;
+    gameMusic.loop = true;
     gameMusic.volume = 0.1;
     gameMusic.play();
 }
 
-function fullscreenButton() {
-    // Fullscreen-Modus hinzufügen
+function toggleFullscreenButton() {
+    let gameContainer = document.getElementById('game-container');
+    if (!document.fullscreenElement) {
+        enterFullscreen(gameContainer);
+    } else {
+        exitFullscreen();
+    }
+}
+
+document.addEventListener("fullscreenchange", () => {
+    let fullscreenIcon = document.getElementById('fullscreen-icon');
+
+    if (document.fullscreenElement) {
+        fullscreenIcon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
+            <path d="m136-80-56-56 264-264H160v-80h320v320h-80v-184L136-80Zm344-400v-320h80v184l264-264 56 56-264 264h184v80H480Z"/>
+        </svg>
+        `;
+    } else {
+        fullscreenIcon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
+            <path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
+        </svg>
+        `;
+    }
+});
+
+function enterFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }
 
 // Game control keys

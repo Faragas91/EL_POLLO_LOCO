@@ -54,6 +54,7 @@ class Endboss extends MovableObject {
     isMovingLeft = false;
     alert = true;
     isDeadAnimationPlayed = false;
+    startAlertCountdown = 0;
     offset = {
         top: 70,
         left: 40,
@@ -61,7 +62,8 @@ class Endboss extends MovableObject {
         bottom: 0,
     }
 
-    // endbossAttackSound = new Sound('audio/angry-chicken.mp3');
+    endbossAttackSound = new Audio('audio/angry-chicken.mp3');
+    endbossHurtSound = new Audio('audio/endboss-hurt.mp3');
 
     constructor() {
         super();
@@ -73,6 +75,12 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ENDBOSS_WALKING);
         this.positionX = 2200;
         this.animateEndboss();
+        this.loadEndbossSounds();
+    }
+
+    loadEndbossSounds() {
+        soundReference.addSoundToList(this.endbossAttackSound);
+        soundReference.addSoundToList(this.endbossHurtSound);
     }
 
     animateEndboss() {
@@ -88,18 +96,18 @@ class Endboss extends MovableObject {
                 this.moveRight();
                 this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
             }
-    
+
             if (this.positionX >= this.level_end_x || this.positionX <= this.levelCapForBoss) {
                 this.toggleDirection();
             }
         }, 150);
 
         setInterval(() => { 
-            if (this.isDeadAnimationPlayed) return;
             if (this.isHurt()) {
+                this.world.playSound(this.endbossHurtSound, 0.1);
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
             }
-        }, 300);
+        }, 100);
         
         setInterval(() => {
             if (this.isDead()) {
@@ -112,32 +120,35 @@ class Endboss extends MovableObject {
 
     toggleDirection() {
         if (this.isDeadAnimationPlayed) return;
-    
-        if (this.positionX <= this.levelCapForBoss) {
+
+        if (this.world.character.positionX >= this.levelCapForBoss && 
+            this.alert === true && 
+            this.isMovingLeft === false && 
+            this.isMovingRight === false) {
+            this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
+            setTimeout(() => {
+                this.alert = false;
+                this.isMovingLeft = true;
+            }, 7500);
+        } else if (this.positionX <= this.levelCapForBoss && this.alert === false) {
+            // Boss bewegt sich nach rechts nach 1000ms
             this.isMovingLeft = false;
-            this.isMovingRight = false;
-            // this.endbossAttackSound.playSound();
-            this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
+            this.isMovingRight = false;     
+            this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);       
             setTimeout(() => {
                 this.isMovingRight = true;
-            }, 1000); 
-        } else if (this.positionX >= this.level_end_x) {
-            this.isMovingRight = false;
-            this.isMovingLeft = false;
-            if (this.alert) { 
-                this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
-                setTimeout(() => {
-                    this.isMovingLeft = true;
-                    this.alert = false; 
-                }, 10000);  
-            } else { 
-                // this.endbossAttackSound.playSound();
+                this.alert = false;
+            }, 3000); 
+            // Boss bewegt sich nach links nach 1000ms
+        }  else if (this.positionX >= this.level_end_x && this.alert === false) {
+                this.isMovingRight = false;
+                this.isMovingLeft = false;
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
                 setTimeout(() => {
                     this.isMovingLeft = true;
-                }, 1000); 
-            }
+                    this.alert = false;
+                }, 3000); 
+            } 
         }
     }
-    
-}
+
