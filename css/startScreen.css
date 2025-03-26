@@ -47,9 +47,9 @@
 }
 
 .switch_buttons{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    position: absolute;
+    right: 0;
+    margin: 10px;
 }
 
 .switch_buttons button {
@@ -74,13 +74,7 @@
     display: flex !important;
 }
 
-.play_button {
-
-}
-
 .game_control {
 
-}
 
-.info {
 }
