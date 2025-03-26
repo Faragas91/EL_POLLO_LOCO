@@ -1,7 +1,7 @@
 class LittleChicken extends MovableObject {
-    positionY = 370;
-    height = 50;
-    width = 50;
+    positionY = 365;
+    height = 60;
+    width = 60;
     positionX = 200;
     speedY = 1;
     acceleration = 1;
@@ -27,7 +27,7 @@ class LittleChicken extends MovableObject {
         super();
         this.loadImage(this.IMAGES_LITTLE_CHICKEN_WALKING[0]);
         this.loadImages(this.IMAGES_LITTLE_CHICKEN_WALKING);
-        this.groundLevel = 370;
+        this.groundLevel = 365;
         this.positionX = 1000 + Math.random() * 500;
         this.speed = 0.5 + Math.random() * 0.5;
         this.animateChicken(this.IMAGES_LITTLE_CHICKEN_WALKING, this.IMAGES_LITTLE_CHICKEN_DEAD);

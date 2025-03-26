@@ -55,8 +55,9 @@ function startGame() {
 
     startScreen.classList.add("hidden");
     gameScreen.classList.remove("hidden");
+    initObjects();
     init();
-
+    
     introMusic.pause();
     introMusic.currentTime = 0;
     gameMusic.volume = 0.1;

@@ -25,8 +25,8 @@ class NormalChicken extends MovableObject {
         super();
         this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_CHICKEN_WALKING);
-        this.positionX = 500 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 0.5;
+        this.positionX = 500 + Math.random() * 1000;
+        this.speed = 0.15 + Math.random() * 2;
         this.animateChicken(this.IMAGES_CHICKEN_WALKING, this.IMAGES_CHICKEN_DEAD);
     }
 
