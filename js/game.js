@@ -76,7 +76,7 @@ function restartGame() {
 
     world.clearWorld();
     world = null;
-    
+
     keyboard = new Keybord();
     initObjects();
     init();
@@ -84,6 +84,22 @@ function restartGame() {
     
     endScreen.classList.add("hidden");
     gameScreen.classList.remove("hidden");
+}
+
+function backHome() {
+    const endScreen = document.querySelector(".end_screen");
+    const gameScreen = document.querySelector(".game_container");
+
+    world.clearWorld();
+    world = null;
+
+    keyboard = new Keybord();
+    showStartScreen();
+    playIntroMusic();
+
+
+    endScreen.classList.add("hidden");
+    gameScreen.classList.add("hidden");
 }
 
 /////////////////////////////
