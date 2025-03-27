@@ -13,6 +13,7 @@ class World {
     throwableObjects = [];
     setEndbossHealthbar;
     gameWin;
+    endScreenSoundPlayed = false;
 
     coinFindSound = new Audio('audio/coin.mp3');
     bottleFindSound = new Audio('audio/bottle.mp3');
@@ -50,9 +51,14 @@ class World {
             this.checkBottleToEnemieCollisions();
             this.checkGameWin();
             this.checkGameOver();
-            this.playEndScreenSound();
+            
+            // Nur aufrufen, wenn Game Over oder Sieg passiert ist
+            if (this.character.energy <= 0 || this.gameWin) {
+                this.playEndScreenSound();
+            }
         }, 200);
     }
+    
     
     loadSounds() {
         soundReference.addSoundToList(this.coinFindSound);
@@ -86,32 +92,41 @@ class World {
             }, 1000);
         }
     }
-
+    
     checkGameWin() {
         this.level.enemies.forEach((enemy) => { 
-            if (enemy instanceof Endboss) {
-                if (enemy.energy <= 0){
-                    this.gameWin = true;
-                    setTimeout(() => {
-                        showEndScreen();
-                    }, 1000);
-                }
+            if (enemy instanceof Endboss && enemy.energy <= 0) {
+                this.gameWin = true;
+                setTimeout(() => {
+                    showEndScreen();
+                }, 1000);
             }
-        })
+        });
     }
 
     playEndScreenSound() {
-        if (this.gameWin === true) {
-            console.log('game win', this.gameWin);
-            this.stopSound(this.endbossAlertSound);
+        if (this.endScreenSoundPlayed) return;
+
+        this.stopSound(this.endbossAlertSound);
+        this.playGameWinSound();
+        this.playGameOverSound();
+
+    }
+    
+    playGameWinSound() {
+        if (this.gameWin) {
+            console.log('Spiel gewonnen! Sound wird abgespielt.');
+            this.endScreenSoundPlayed = true;
             setTimeout(() => {
                 this.playSound(this.gameWinSound, 0.1);
             }, 1000);
-        } 
-        
-        if (this.gameWin === false) {
-            console.log('game over', this.gameWin);
-            this.stopSound(this.endbossAlertSound);
+        }
+    }
+
+    playGameOverSound() {
+        if (this.character.energy <= 0) {
+            console.log('Spiel verloren! Sound wird abgespielt.');
+            this.endScreenSoundPlayed = true;
             setTimeout(() => {
                 this.playSound(this.gameLoseSound, 0.1);
             }, 1000);
@@ -133,8 +148,9 @@ class World {
                     this.level.enemies = this.level.enemies.filter(e => e !== enemy);
                 }, 1000);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
-                // this.playSound(this.hurtSound, 0.1);
+                if (this.character.energy <= 0) return;
                 this.character.hit(2);
+                this.playSound(this.hurtSound, 0.1);
                 this.healthStatusBar.setPercantage(this.character.energy);
             }
         });
