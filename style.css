@@ -33,7 +33,6 @@ canvas {
     background-size: cover;
 }
   
-
 h1 {
     font-size: 100px;
     color: rgb(232, 163, 85);
@@ -51,6 +50,14 @@ h1 {
 
 .backbutton:hover {
     background-color: rgb(226, 181, 1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.display-flex {
+    display: flex !important;
 }
 
 @media only screen and (max-width: 720px){ 

@@ -1,7 +1,3 @@
-.hidden {
-    display: none !important;
-}
-
 .start_screen {
     position: relative;
     display: flex;
@@ -68,8 +64,4 @@
     justify-content: center;
     gap: 10px;
     margin-left: 60px;
-}
-
-.display-flex {
-    display: flex !important;
 }

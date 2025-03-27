@@ -2,10 +2,63 @@ let canvas;
 let world;
 let keyboard = new Keybord();
 
+
+//////////////////////////////////////
+//////// Start Screen Section ////////
+//////////////////////////////////////
+
+function showGameInfo() {
+    const offScreenMenu = document.getElementById('game-info');
+    offScreenMenu.classList.toggle('active');
+}
+
+function showStartScreen() {
+    const startScreen = document.querySelector(".start_screen");
+    const gameScreen = document.querySelector(".game_container");
+    
+    startScreen.classList.remove("hidden");
+    gameScreen.classList.add("hidden");
+}
+
+//////////////////////////////////////
+//////// Game Screen Section ////////
+//////////////////////////////////////
+
+function init() {
+    canvas = document.getElementById("canvas");
+    world = new World(canvas, keyboard);
+}
+
+function startGame() {
+    const startScreen = document.querySelector(".start_screen");
+    const gameScreen = document.querySelector(".game_container");
+
+    startScreen.classList.add("hidden");
+    gameScreen.classList.remove("hidden");
+    initObjects();
+    init();
+    playGameMusic();
+}
+
+//////////////////////////////////////
+///////// End Screen Section /////////
+//////////////////////////////////////
+
+// function showEndScreen() {
+//     const startScreen = document.querySelector(".start_screen");
+//     const gameScreen = document.querySelector(".game_container");
+    
+//     startScreen.classList.remove("hidden");
+//     gameScreen.classList.add("hidden");
+// }
+
+/////////////////////////////
+/////// Sound Section ///////
+/////////////////////////////
+
 let introMusic = new Audio('audio/intro-music.mp3');
 let gameMusic = new Audio('audio/background-music.mp3');
 
-// Configure background music
 soundReference.addSoundToList(introMusic);
 soundReference.addSoundToList(gameMusic);
 soundReference.updateButtonIcon();
@@ -31,39 +84,18 @@ document.addEventListener('click', (event) => {
 }, { once: true });
 
 
-function showGameInfo() {
-    const offScreenMenu = document.getElementById('game-info');
-    offScreenMenu.classList.toggle('active');
-}
-
-function init() {
-    canvas = document.getElementById("canvas");
-    world = new World(canvas, keyboard);
-}
-
-function showStartScreen() {
-    const startScreen = document.querySelector(".start_screen");
-    const gameScreen = document.querySelector(".game_container");
-    
-    startScreen.classList.remove("hidden");
-    gameScreen.classList.add("hidden");
-}
-
-function startGame() {
-    const startScreen = document.querySelector(".start_screen");
-    const gameScreen = document.querySelector(".game_container");
-
-    startScreen.classList.add("hidden");
-    gameScreen.classList.remove("hidden");
-    initObjects();
-    init();
-    
+function playGameMusic() {
     introMusic.pause();
     introMusic.currentTime = 0;
     gameMusic.loop = true;
     gameMusic.volume = 0.1;
     gameMusic.play();
 }
+
+
+////////////////////////////////////
+///////// FullScreen Section ///////
+////////////////////////////////////
 
 function toggleFullscreenButton() {
     let gameContainer = document.getElementById('game-container');
@@ -109,6 +141,11 @@ function exitFullscreen() {
         document.webkitExitFullscreen();
     }
 }
+
+
+/////////////////////////////////
+//////// Keyboard Section ///////
+/////////////////////////////////
 
 // Game control keys
 window.addEventListener("keydown", (event) => {
