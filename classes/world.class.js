@@ -14,6 +14,7 @@ class World {
     setEndbossHealthbar;
     gameWin;
     endScreenSoundPlayed = false;
+    endScreenShowed = false;
 
     coinFindSound = new Audio('audio/coin.mp3');
     bottleFindSound = new Audio('audio/bottle.mp3');
@@ -49,10 +50,12 @@ class World {
             this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
             this.checkBottleToEnemieCollisions();
-            this.checkGameWin();
-            this.checkGameOver();
-            
-            // Nur aufrufen, wenn Game Over oder Sieg passiert ist
+
+            if (!this.endScreenShowed) {
+                this.checkGameWin();
+                this.checkGameOver();
+            };
+
             if (this.character.energy <= 0 || this.gameWin) {
                 this.playEndScreenSound();
             }
@@ -89,6 +92,7 @@ class World {
             this.gameWin = false;
             setTimeout(() => {
                 showEndScreen();
+                this.endScreenShowed = true;
             }, 1000);
         }
     }
@@ -99,6 +103,7 @@ class World {
                 this.gameWin = true;
                 setTimeout(() => {
                     showEndScreen();
+                    this.endScreenShowed = true;
                 }, 1000);
             }
         });
@@ -108,30 +113,41 @@ class World {
         if (this.endScreenSoundPlayed) return;
 
         this.stopSound(this.endbossAlertSound);
-        this.playGameWinSound();
-        this.playGameOverSound();
-
+        if (this.gameWin) {
+            this.playGameWinSound();
+        } 
+        if (!this.gameWin) {
+            this.playGameOverSound();
+        }
     }
     
     playGameWinSound() {
-        if (this.gameWin) {
-            console.log('Spiel gewonnen! Sound wird abgespielt.');
-            this.endScreenSoundPlayed = true;
-            setTimeout(() => {
-                this.playSound(this.gameWinSound, 0.1);
-            }, 1000);
-        }
+        this.endScreenSoundPlayed = true;
+        setTimeout(() => {
+            this.playSound(this.gameWinSound, 0.1);
+        }, 1000);
     }
 
     playGameOverSound() {
-        if (this.character.energy <= 0) {
-            console.log('Spiel verloren! Sound wird abgespielt.');
-            this.endScreenSoundPlayed = true;
-            setTimeout(() => {
-                this.playSound(this.gameLoseSound, 0.1);
-            }, 1000);
-        }
+        this.endScreenSoundPlayed = true;
+        setTimeout(() => {
+            this.playSound(this.gameLoseSound, 0.1);
+        }, 1000);
     }
+
+    clearWorld() {
+        this.stopDrawing = true;
+        this.level.enemies = [];
+        this.level.coins = [];
+        this.level.bottles = [];
+        this.throwableObjects = [];
+        this.healthStatusbar = null;
+        this.coinStatusBar = null;
+        this.bottleStatusbar = null;
+        this.endbossStatusBar = null;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
 
     checkCharacterToEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
@@ -211,6 +227,7 @@ class World {
     }
     
     draw() {
+        if (this.stopDrawing) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
 

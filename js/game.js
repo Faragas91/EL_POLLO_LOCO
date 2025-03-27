@@ -55,21 +55,32 @@ function showEndScreen() {
             <img src="img/You won, you lost/You Win A.png" alt="You Win" width=720px height=480px>
             ${templateEndScreen()}
         `
+        endScreen.classList.remove("hidden");
+        gameScreen.classList.add("hidden");
     } else {
         gameMusic.pause();
         loseOrWin.innerHTML = `
             <img src="/img/You won, you lost/Game Over.png" alt="You Lose" width=720px height=480px>
             ${templateEndScreen()}
         `
+        endScreen.classList.remove("hidden");
+        gameScreen.classList.add("hidden");
     }
 
-    endScreen.classList.remove("hidden");
-    gameScreen.classList.add("hidden");
+
 }
 
 function restartGame() {
     const endScreen = document.querySelector(".end_screen");
     const gameScreen = document.querySelector(".game_container");
+
+    world.clearWorld();
+    world = null;
+    
+    keyboard = new Keybord();
+    initObjects();
+    init();
+    playGameMusic();
     
     endScreen.classList.add("hidden");
     gameScreen.classList.remove("hidden");
