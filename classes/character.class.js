@@ -126,7 +126,10 @@ class Character extends MovableObject {
             if (this.isMoving){
                 this.resetIdleTimer();
             } 
-
+            
+            if (this.world.gameWin || !this.world.gameWin) {
+                this.world.stopSound(this.snoreSound);
+            }
         }, 1000 / 60);
 
         setInterval(() => { 

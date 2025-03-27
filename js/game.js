@@ -44,13 +44,36 @@ function startGame() {
 ///////// End Screen Section /////////
 //////////////////////////////////////
 
-// function showEndScreen() {
-//     const startScreen = document.querySelector(".start_screen");
-//     const gameScreen = document.querySelector(".game_container");
+function showEndScreen() {
+    const loseOrWin = document.getElementById('end-screen');
+    const endScreen = document.querySelector(".end_screen");
+    const gameScreen = document.querySelector(".game_container");
     
-//     startScreen.classList.remove("hidden");
-//     gameScreen.classList.add("hidden");
-// }
+    if (world.gameWin) {
+        gameMusic.pause();
+        loseOrWin.innerHTML = `
+            <img src="img/You won, you lost/You Win A.png" alt="You Win" width=720px height=480px>
+            ${templateEndScreen()}
+        `
+    } else {
+        gameMusic.pause();
+        loseOrWin.innerHTML = `
+            <img src="/img/You won, you lost/Game Over.png" alt="You Lose" width=720px height=480px>
+            ${templateEndScreen()}
+        `
+    }
+
+    endScreen.classList.remove("hidden");
+    gameScreen.classList.add("hidden");
+}
+
+function restartGame() {
+    const endScreen = document.querySelector(".end_screen");
+    const gameScreen = document.querySelector(".game_container");
+    
+    endScreen.classList.add("hidden");
+    gameScreen.classList.remove("hidden");
+}
 
 /////////////////////////////
 /////// Sound Section ///////

@@ -12,8 +12,8 @@ class World {
     endbossSymbol = new Statusbar('endbossSymbol', 655, 5, 50, 60);
     throwableObjects = [];
     setEndbossHealthbar;
+    gameWin;
 
-    backgroundMusic = new Audio('audio/background-music.mp3', true);
     coinFindSound = new Audio('audio/coin.mp3');
     bottleFindSound = new Audio('audio/bottle.mp3');
     bottleSplashSound = new Audio('audio/splash.mp3');
@@ -21,6 +21,8 @@ class World {
     normalChickenDeadSound = new Audio('audio/chicken.mp3');
     littleChickenDeadSound = new Audio('audio/little-chicken.mp3');
     endbossAlertSound = new Audio('audio/endboss.mp3');
+    gameWinSound = new Audio('audio/game-win.mp3');
+    gameLoseSound = new Audio('audio/game-lose.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -46,12 +48,13 @@ class World {
             this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
             this.checkBottleToEnemieCollisions();
+            this.checkGameWin();
             this.checkGameOver();
+            this.playEndScreenSound();
         }, 200);
     }
     
     loadSounds() {
-        soundReference.addSoundToList(this.backgroundMusic);
         soundReference.addSoundToList(this.coinFindSound);
         soundReference.addSoundToList(this.bottleFindSound);
         soundReference.addSoundToList(this.bottleSplashSound);
@@ -59,6 +62,8 @@ class World {
         soundReference.addSoundToList(this.normalChickenDeadSound);
         soundReference.addSoundToList(this.littleChickenDeadSound);
         soundReference.addSoundToList(this.endbossAlertSound);
+        soundReference.addSoundToList(this.gameWinSound);
+        soundReference.addSoundToList(this.gameLoseSound);
     }
 
     playSound(sound, volume, loop = false) {
@@ -74,15 +79,42 @@ class World {
     }
 
     checkGameOver() {
+        if (this.character.energy <= 0) {
+            this.gameWin = false;
+            setTimeout(() => {
+                showEndScreen();
+            }, 1000);
+        }
+    }
+
+    checkGameWin() {
         this.level.enemies.forEach((enemy) => { 
             if (enemy instanceof Endboss) {
                 if (enemy.energy <= 0){
-                    console.log('Lost');
+                    this.gameWin = true;
+                    setTimeout(() => {
+                        showEndScreen();
+                    }, 1000);
                 }
             }
         })
-        if (this.character.energy <= 0) {
-            console.log('Lost');
+    }
+
+    playEndScreenSound() {
+        if (this.gameWin === true) {
+            console.log('game win', this.gameWin);
+            this.stopSound(this.endbossAlertSound);
+            setTimeout(() => {
+                this.playSound(this.gameWinSound, 0.1);
+            }, 1000);
+        } 
+        
+        if (this.gameWin === false) {
+            console.log('game over', this.gameWin);
+            this.stopSound(this.endbossAlertSound);
+            setTimeout(() => {
+                this.playSound(this.gameLoseSound, 0.1);
+            }, 1000);
         }
     }
 
@@ -101,7 +133,7 @@ class World {
                     this.level.enemies = this.level.enemies.filter(e => e !== enemy);
                 }, 1000);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
-                this.playSound(this.hurtSound, 0.1);
+                // this.playSound(this.hurtSound, 0.1);
                 this.character.hit(2);
                 this.healthStatusBar.setPercantage(this.character.energy);
             }
