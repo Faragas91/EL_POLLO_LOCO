@@ -14,21 +14,27 @@ ul {
 
 @media  (max-width: 1000px) {
 
-    .main__container {
+    .privacyPolicy__container {
         padding: 32px 40px 32px 40px;
     }
 }
 
 @media (max-width: 800px) {
 
-    .main__container {
+    .privacyPolicy__container{
         padding-bottom: 128px;
     }
 }
 
 @media (max-width: 471px) {
 
-    .main__container {
-        padding: 32px 16px 0px 16px;
+    .privacyPolicy__container {
+        padding: 32px 2px 0px 2px;
+        font-size: 16px;
     }
+
+    .privacyPolicy__container h1 {
+        font-size: 64px;
+    }
+
 }

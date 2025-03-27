@@ -6,22 +6,27 @@
 
 @media  (max-width: 1000px) {
 
-    .impressum_main_container {
+    .impressum__container {
         padding: 136px 40px 32px 40px;
     }
 }
 
 @media (max-width: 800px) {
 
-    .impressum_main_container {
+    .impressum__container {
         padding-bottom: 128px;
     }
 }
 
 @media (max-width: 471px) {
 
-    .impressum_main_container {
-        padding: 136px 16px 136px 16px;
+    .impressum__container {
+        padding: 136px 2px 136px 2px;
+        font-size: 16px;
+    }
+
+    .impressum__container h1 {
+        font-size: 64px;
     }
 }
 
