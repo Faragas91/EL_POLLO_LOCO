@@ -8,8 +8,8 @@ class World {
     healthStatusBar = new Statusbar('health', 20, 0, 200, 60);
     coinStatusBar = new Statusbar('coin', 20, 50, 200, 60);
     bottleStatusBar = new Statusbar('bottle', 20, 100, 200, 60);
-    endbossStatusBar = new Statusbar('endbossHealth', 500, 10, 200, 40);
-    endbossSymbol = new Statusbar('endbossSymbol', 655, 5, 50, 60);
+    endbossStatusBar = new Statusbar('endbossHealth', 500, 50, 200, 40);
+    endbossSymbol = new Statusbar('endbossSymbol', 655, 45, 50, 60);
     throwableObjects = [];
     setEndbossHealthbar;
     gameWin;

@@ -1,63 +1,34 @@
 .panel {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     width: 720px;
     max-width: 720px;
-    margin-top: 8px;
-    position: relative;
+    margin-bottom: 8px;
+    position: absolute;
+    bottom: 0;
 }
   
-.panel-left, .panel-right {
+.panel__left, .panel__right {
     display: flex;
     gap: 32px;
     margin: 0 16px;
 }
   
-.touch-btn {
+.touch__btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: 50px;
     background-image: linear-gradient(#ff9d00, #ffdf01, #ff9d00);
     cursor: pointer;
     border: 1px solid rgba(255, 255, 0, 0.5)
 }
   
-.touch-btn img{
+.touch__btn img{
     width: 48px;
     height: 48px;
 }
   
-.control-buttons {
-    position: absolute;
-    top: 30px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 10;
-}
-  
-.control-btn {
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-  
-.control-btn img {
-    width: 80%;
-    height: auto;
-}
-  
-.control-btn:hover {
-    background: rgba(255, 255, 255, 0.6);
-}
