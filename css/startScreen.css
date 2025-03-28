@@ -3,12 +3,12 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-left: 60px;
 }
 
 .start_screen img {
     width: 720px;
-    height: 480px;
+    height: 100vh;
+    max-height: 480px;
 }
 
 .start_buttons-container {
@@ -65,3 +65,4 @@
     gap: 10px;
     margin-left: 60px;
 }
+

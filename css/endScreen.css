@@ -2,8 +2,11 @@
     position: relative;
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-left: 60px;
+}
+
+.end_screen img {
+    width: 720px;
+    height: 480px;
     background-color: black;
 }
 

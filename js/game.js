@@ -8,7 +8,7 @@ let keyboard = new Keybord();
 //////////////////////////////////////
 
 function showGameInfo() {
-    const offScreenMenu = document.getElementById('game-info');
+    let offScreenMenu = document.getElementById('game-info');
     offScreenMenu.classList.toggle('active');
 }
 
@@ -157,7 +157,7 @@ function toggleFullscreenButton() {
 }
 
 document.addEventListener("fullscreenchange", () => {
-    let fullscreenIcon = document.getElementById('fullscreen-icon');
+    let fullscreenIcon = document.querySelectorAll('.fullscreen-icon');
 
     if (document.fullscreenElement) {
         fullscreenIcon.innerHTML = `
@@ -191,6 +191,24 @@ function exitFullscreen() {
         document.webkitExitFullscreen();
     }
 }
+
+////////////////////////////////////////
+//////// Screen Rotation Section ///////
+////////////////////////////////////////
+
+function checkScreenWidth() {
+    const rotationOverlay = document.getElementById("screen-rotation");
+
+    if (window.innerWidth <= 720) {
+        rotationOverlay.classList.remove("hidden");
+    } else {
+        rotationOverlay.classList.add("hidden");
+    }
+}
+
+window.addEventListener("resize", checkScreenWidth);
+window.addEventListener("load", checkScreenWidth);
+
 
 
 /////////////////////////////////

@@ -1,0 +1,51 @@
+.screen-rotation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Dunkler Hintergrund */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    z-index: 10000;
+}
+
+.screen-rotation img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+
+}
+
+.screen-rotation h2 {
+    font-size: 24px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .title 
+    {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .screen-rotation {
+        display: flex !important;
+    }
+    
+    .start_screen,
+    .start_buttons-container,
+    .switch_buttons,
+    .game_container,
+    .end_screen {
+        display: none !important;
+    }
+}
