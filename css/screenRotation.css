@@ -30,8 +30,8 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .title 
-    {
+    .title,
+    h1 {
         display: none !important;
     }
 }
@@ -45,7 +45,8 @@
     .start_buttons-container,
     .switch_buttons,
     .game_container,
-    .end_screen {
+    .end_screen
+    {
         display: none !important;
     }
 }
