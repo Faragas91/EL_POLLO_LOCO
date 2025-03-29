@@ -66,8 +66,6 @@ function showEndScreen() {
         endScreen.classList.remove("hidden");
         gameScreen.classList.add("hidden");
     }
-
-
 }
 
 function restartGame() {
@@ -119,7 +117,6 @@ function toggleSoundButton() {
     }
 }
 
-// Play intro music on first click or after a delay
 function playIntroMusic() {
     introMusic.loop = true;
     introMusic.volume = 0.1;
@@ -208,61 +205,4 @@ function checkScreenWidth() {
 
 window.addEventListener("resize", checkScreenWidth);
 window.addEventListener("load", checkScreenWidth);
-
-
-
-/////////////////////////////////
-//////// Keyboard Section ///////
-/////////////////////////////////
-
-// Game control keys
-window.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case 'a': 
-            keyboard.LEFT = true;
-            break;
-        case 's': 
-            keyboard.DOWN = true;
-            break;
-        case 'd': 
-            keyboard.RIGHT = true;
-            break;
-        case 'w': 
-            keyboard.UP = true;
-            break;
-        case ' ': 
-            keyboard.JUMP = true;
-            break;
-        case 'e': 
-            keyboard.THROW = true;
-            break;
-        default:
-            break;
-    }
-});
-
-window.addEventListener("keyup", (event) => {
-    switch (event.key) {
-        case 'a': 
-            keyboard.LEFT = false;
-            break;
-        case 's': 
-            keyboard.DOWN = false;
-            break;
-        case 'd': 
-            keyboard.RIGHT = false;
-            break;
-        case 'w': 
-            keyboard.UP = false;
-            break;
-        case ' ': 
-            keyboard.JUMP = false;
-            break;
-        case 'e': 
-            keyboard.THROW = false;
-            break;
-        default:
-            break;
-    }
-});
 
