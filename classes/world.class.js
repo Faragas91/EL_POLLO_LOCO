@@ -152,7 +152,7 @@ class World {
     checkCharacterToEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0 ){
-                this.character.speedY = 20;
+                this.character.speedY = 12.5;
                 enemy.energy = 0;
                 if (enemy instanceof NormalChicken) {
                     this.playSound(this.normalChickenDeadSound, 0.1);
@@ -162,7 +162,7 @@ class World {
                 }
                 setTimeout(() => {
                     this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-                }, 1000);
+                }, 500);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
                 if (this.character.energy <= 0) return;
                 this.character.hit(2);
@@ -215,8 +215,17 @@ class World {
                     if (enemy instanceof Endboss) {
                         this.endbossStatusBar.setPercantage(enemy.energy)
                         enemy.hit(30);
-                    } else {
+                    }
+                    if (enemy instanceof NormalChicken) {
                         enemy.energy = 0;
+                        this.playSound(this.normalChickenDeadSound, 0.1)
+                        setTimeout(() => {
+                            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+                        }, 1000);
+                    } 
+                    if (enemy instanceof LittleChicken) {
+                        enemy.energy = 0;
+                        this.playSound(this.littleChickenDeadSound, 0.1)
                         setTimeout(() => {
                             this.level.enemies = this.level.enemies.filter(e => e !== enemy);
                         }, 1000);

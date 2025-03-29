@@ -2,6 +2,13 @@ let canvas;
 let world;
 let keyboard = new Keybord();
 
+let introMusic = new Audio('audio/intro-music.mp3');
+let gameMusic = new Audio('audio/background-music.mp3');
+
+soundReference.addSoundToList(introMusic);
+soundReference.addSoundToList(gameMusic);
+soundReference.updateButtonIcon();
+
 
 //////////////////////////////////////
 //////// Start Screen Section ////////
@@ -103,13 +110,6 @@ function backHome() {
 /////////////////////////////
 /////// Sound Section ///////
 /////////////////////////////
-
-let introMusic = new Audio('audio/intro-music.mp3');
-let gameMusic = new Audio('audio/background-music.mp3');
-
-soundReference.addSoundToList(introMusic);
-soundReference.addSoundToList(gameMusic);
-soundReference.updateButtonIcon();
 
 function toggleSoundButton() {
     if (typeof soundReference !== "undefined" && soundReference.toggleMute) {

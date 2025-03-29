@@ -49,7 +49,7 @@ class Endboss extends MovableObject {
     energy = 100;
     levelCapForBoss = 1700;
     level_end_x = 2200;
-    speed = 10;
+    speed = 20;
     isMovingRight = false;
     isMovingLeft = false;
     alert = true;

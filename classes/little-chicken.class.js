@@ -28,7 +28,7 @@ class LittleChicken extends MovableObject {
         this.loadImage(this.IMAGES_LITTLE_CHICKEN_WALKING[0]);
         this.loadImages(this.IMAGES_LITTLE_CHICKEN_WALKING);
         this.groundLevel = 365;
-        this.positionX = 1000 + Math.random() * 500;
+        this.positionX = 1500 + Math.random() * 500;
         this.speed = 0.5 + Math.random() * 0.5;
         this.animateChicken(this.IMAGES_LITTLE_CHICKEN_WALKING, this.IMAGES_LITTLE_CHICKEN_DEAD);
         this.applyGravity();
