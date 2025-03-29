@@ -298,7 +298,7 @@ class Character extends MovableObject {
      * Plays long idle animation if enough time has passed.
      */
     updateIdleAnimation() {
-        if (this.idleTime >= 150) {
+        if (this.idleTime >= 15000) {
             this.startLongIdleAnimation();
         } else {
             this.startNormalIdleAnimation();

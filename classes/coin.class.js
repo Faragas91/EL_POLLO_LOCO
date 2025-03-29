@@ -1,3 +1,8 @@
+/**
+ * Represents the coins in the game.
+ * Extends the MovableObject class to inherit animation functionality.
+ * 
+ */
 class Coin extends MovableObject {
 
     width = 100;
@@ -14,6 +19,9 @@ class Coin extends MovableObject {
         'img/8_coin/coin_2.png'
     ];
 
+    /**
+     * Initializes the coins, loads images and starts animations.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_COIN[0]);
@@ -21,6 +29,5 @@ class Coin extends MovableObject {
         this.positionX = Math.random() * 2000;
         this.positionY = 200 + Math.random() * 100;
         this.animateCoins(this.IMAGES_COIN);
-
     }
 }

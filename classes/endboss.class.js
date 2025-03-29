@@ -1,5 +1,14 @@
+/**
+ * Represents the main character in the game.
+ * Extends the MovableObject class to inherit movement and animation functionality.
+ */
+
 class Endboss extends MovableObject {
-    
+
+    /**
+     * Array of images for the walking animation.
+     * @type {string[]}
+     */
     IMAGES_ENDBOSS_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -7,6 +16,10 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
+    /**
+     * Array of images for the alert animation.
+     * @type {string[]}
+     */
     IMAGES_ENDBOSS_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -18,6 +31,10 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
+    /**
+     * Array of images for the attack animation.
+     * @type {string[]}
+     */
     IMAGES_ENDBOSS_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -29,12 +46,20 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
+    /**
+     * Array of images for the hurt animation.
+     * @type {string[]}
+     */
     IMAGES_ENDBOSS_HURT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
+    /**
+     * Array of images for the dead animation.
+     * @type {string[]}
+     */
     IMAGES_ENDBOSS_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
@@ -65,6 +90,9 @@ class Endboss extends MovableObject {
     endbossAttackSound = new Audio('audio/angry-chicken.mp3');
     endbossHurtSound = new Audio('audio/endboss-hurt.mp3');
 
+    /**
+     * Initializes the endboss, loads images and sounds, and starts animations.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_ENDBOSS_ALERT[0]);
@@ -78,11 +106,17 @@ class Endboss extends MovableObject {
         this.loadEndbossSounds();
     }
 
+    /**
+     * Loads endboss-specific sounds into the global sound reference.
+     */
     loadEndbossSounds() {
         soundReference.addSoundToList(this.endbossAttackSound);
         soundReference.addSoundToList(this.endbossHurtSound);
     }
 
+    /**
+     * Handles the character's animations and movements based on user input and game state.
+     */
     animateEndboss() {
         setInterval(() => {
             if (this.isDeadAnimationPlayed) return;

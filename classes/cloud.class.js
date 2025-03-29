@@ -3,22 +3,8 @@
  * Extends the MovableObject class to inherit movement functionality.
  */
 class Cloud extends MovableObject {
-    /**
-     * The vertical position of the cloud.
-     * @type {number}
-     */
     positionY = 20;
-
-    /**
-     * The width of the cloud.
-     * @type {number}
-     */
     width = 500;
-
-    /**
-     * The height of the cloud.
-     * @type {number}
-     */
     height = 250;
 
     /**
