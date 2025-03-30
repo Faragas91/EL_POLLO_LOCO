@@ -1,3 +1,8 @@
+/**
+ * Represents the keyboard settings in the game.
+ * 
+ */
+
 class Keybord {
     LEFT = false;
     RIGHT = false;
@@ -5,11 +10,4 @@ class Keybord {
     DOWN = false;
     JUMP = false;
     THROW = false;
-
-
-    constructor() {
-
-    }
-
-
 }

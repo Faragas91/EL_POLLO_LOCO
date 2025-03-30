@@ -1,5 +1,5 @@
 /**
- * Represents the main character in the game.
+ * Represents the endboss in the game.
  * Extends the MovableObject class to inherit movement and animation functionality.
  */
 
@@ -107,7 +107,7 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Loads endboss-specific sounds into the global sound reference.
+     * Loads the Endboss-specific sounds into the global sound reference.
      */
     loadEndbossSounds() {
         soundReference.addSoundToList(this.endbossAttackSound);
@@ -115,34 +115,72 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * Handles the character's animations and movements based on user input and game state.
+     * Handles the Endboss's animations and movements.
      */
     animateEndboss() {
         setInterval(() => {
-            if (this.isDeadAnimationPlayed) return;
-
-            if (this.positionX > this.levelCapForBoss && this.isMovingLeft && !this.isMovingRight && !this.alert) {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
-            } 
-            
-            if (this.positionX < this.level_end_x && !this.isMovingLeft && this.isMovingRight && !this.alert) {
-                this.moveRight();
-                this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
-            }
-
-            if (this.positionX >= this.level_end_x || this.positionX <= this.levelCapForBoss) {
-                this.toggleDirection();
-            }
+            this.enbossIsDeadStopAnimation();
+            this.endbossMovesLeft();
+            this.endbossMovesRight();
+            this.endbossSwitchedDirections();
         }, 150);
 
+        this.playEndbossHurtAnimation();
+        this.playEndbossDeadAnimation();
+    }
+
+    /**
+     * Stops animations if the Endboss is dead.
+     */
+    enbossIsDeadStopAnimation() {
+        if (this.isDeadAnimationPlayed) return;
+    }
+
+    /**
+     * Moves the Endboss to the left if conditions are met.
+     */
+    endbossMovesLeft() {
+        if (this.positionX > this.levelCapForBoss && this.isMovingLeft && !this.isMovingRight && !this.alert) {
+            this.moveLeft();
+            this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
+        } 
+    }
+
+    /**
+     * Moves the Endboss to the right if conditions are met.
+     */
+    endbossMovesRight() {
+        if (this.positionX < this.level_end_x && !this.isMovingLeft && this.isMovingRight && !this.alert) {
+            this.moveRight();
+            this.playAnimation(this.IMAGES_ENDBOSS_WALKING);
+        }
+    }
+
+    /**
+     * Toggles movement direction when the Endboss reaches a boundary.
+     */
+    endbossSwitchedDirections() {
+        if (this.positionX >= this.level_end_x || this.positionX <= this.levelCapForBoss) {
+            this.toggleDirection();
+        }
+    }
+
+    /**
+     * Plays the hurt animation when the Endboss is hit.
+     */
+    playEndbossHurtAnimation() {
         setInterval(() => { 
             if (this.isHurt()) {
                 this.world.playSound(this.endbossHurtSound, 0.1);
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
             }
         }, 100);
-        
+    }
+
+    /**
+     * Plays the death animation when the Endboss is defeated.
+     */
+    playEndbossDeadAnimation() {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
@@ -151,38 +189,59 @@ class Endboss extends MovableObject {
         }, 300);
     }
 
-
+    /**
+     * Toggles the Endboss's movement direction.
+     */
     toggleDirection() {
-        if (this.isDeadAnimationPlayed) return;
-
+        this.enbossIsDeadStopAnimation();
         if (this.world.character.positionX >= this.levelCapForBoss && 
             this.alert === true && 
-            this.isMovingLeft === false && 
-            this.isMovingRight === false) {
-            this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
-            setTimeout(() => {
-                this.alert = false;
-                this.isMovingLeft = true;
-            }, 7500);
-        } else if (this.positionX <= this.levelCapForBoss && this.alert === false) {
-            // Boss bewegt sich nach rechts nach 1000ms
-            this.isMovingLeft = false;
-            this.isMovingRight = false;     
-            this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);       
-            setTimeout(() => {
-                this.isMovingRight = true;
-                this.alert = false;
-            }, 3000); 
-            // Boss bewegt sich nach links nach 1000ms
-        }  else if (this.positionX >= this.level_end_x && this.alert === false) {
-                this.isMovingRight = false;
-                this.isMovingLeft = false;
-                this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
-                setTimeout(() => {
-                    this.isMovingLeft = true;
-                    this.alert = false;
-                }, 3000); 
-            } 
+            !this.isMovingLeft && 
+            !this.isMovingRight) {
+            this.startedAlertAnimation();
+        } else if (this.positionX <= this.levelCapForBoss && !this.alert) {
+            this.setEndbossDirectionToRight();
+        } else if (this.positionX >= this.level_end_x && !this.alert) {
+            this.setEndbossDirectionToLeft();
         }
     }
 
+    /**
+     * Starts the alert animation when the character gets close.
+     */
+    startedAlertAnimation() {
+        this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
+        setTimeout(() => {
+            this.alert = false;
+            this.isMovingLeft = true;
+        }, 7500);
+    }
+
+    /**
+     * Changes the Endboss's direction to the right after an attack.
+     */
+    setEndbossDirectionToRight() {
+        this.isMovingLeft = false;
+        this.isMovingRight = false;     
+        this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);       
+        setTimeout(() => {
+            this.isMovingRight = true;
+            this.alert = false;
+        }, 3000); 
+
+    }
+
+    /**
+     * Changes the Endboss's direction to the left after an attack.
+     */
+    setEndbossDirectionToLeft() {
+        this.isMovingRight = false;
+        this.isMovingLeft = false;
+        this.playAnimation(this.IMAGES_ENDBOSS_ATTACK);
+        setTimeout(() => {
+            this.isMovingLeft = true;
+            this.alert = false;
+        }, 3000); 
+    
+    }
+}
