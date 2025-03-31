@@ -175,7 +175,7 @@ class World {
                 if (this.character.energy <= 0) return;
                 this.character.hit(2);
                 this.playSound(this.hurtSound, 0.1);
-                this.healthStatusBar.setPercantage(this.character.energy);
+                this.healthStatusBar.setPercentage(this.character.energy);
             }
         });
     }
@@ -185,7 +185,7 @@ class World {
             if (this.character.isColliding(coin)){
                 this.character.collectCoin();
                 this.playSound(this.coinFindSound, 0.1);
-                this.coinStatusBar.setPercantage(this.character.foundCoin);
+                this.coinStatusBar.setPercentage(this.character.foundCoin);
                 return false;
             }
             return true;
@@ -197,7 +197,7 @@ class World {
             if (this.character.isColliding(bottle) && this.character.foundBottle !== 100){
                 this.character.collectBottle();
                 this.playSound(this.bottleFindSound, 0.1);
-                this.bottleStatusBar.setPercantage(this.character.foundBottle);
+                this.bottleStatusBar.setPercentage(this.character.foundBottle);
                 return false;
             }
             return true;
@@ -208,7 +208,7 @@ class World {
         if (this.keyboard.THROW && this.character.foundBottle !== 0) {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
-            this.bottleStatusBar.setPercantage(this.character.foundBottle -= 20);
+            this.bottleStatusBar.setPercentage(this.character.foundBottle -= 20);
             this.checkBottleToEnemieCollisions(bottle);
         }
     }
@@ -221,7 +221,7 @@ class World {
                     bottle.splash();
                     this.playSound(this.bottleSplashSound, 0.1);
                     if (enemy instanceof Endboss) {
-                        this.endbossStatusBar.setPercantage(enemy.energy)
+                        this.endbossStatusBar.setPercentage(enemy.energy)
                         enemy.hit(30);
                     }
                     if (enemy instanceof NormalChicken) {

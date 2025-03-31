@@ -1,5 +1,3 @@
-const soundReference = new Sound();
-
 /**
  * Represents the sounds in the game.
  * This class manages sound playback and mute functionality.
@@ -60,3 +58,5 @@ class Sound {
         });
     }
 }
+
+const soundReference = new Sound();
