@@ -79,22 +79,22 @@ class DrawableObject{
         this.foundBottle += 20;
     }
 
-        // drawFrame(ctx) {
+    // drawFrame(ctx) {
     //     if (
-    //       this instanceof Character ||
-    //       this instanceof Endboss || 
-    //       this instanceof NormalChicken || 
-    //       this instanceof LittleChicken || 
-    //       this instanceof Bottle || 
-    //       this instanceof Coin
+    //         this instanceof Character ||
+    //         this instanceof Endboss || 
+    //         this instanceof NormalChicken || 
+    //         this instanceof LittleChicken || 
+    //         this instanceof Bottle || 
+    //         this instanceof Coin
     //     ) {
-    //       ctx.beginPath();
-    //       ctx.lineWidth = "5";
-    //       ctx.strokeStyle = "blue";
-    //       ctx.rect(this.positionX, this.positionY, this.width, this.height);
-    //       ctx.stroke();
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "5";
+    //         ctx.strokeStyle = "blue";
+    //         ctx.rect(this.positionX, this.positionY, this.width, this.height);
+    //         ctx.stroke();
     //     }
-    //   }
+    // }
 
     // drawOffsetFrame(ctx) {
     //     if (this instanceof Character || 

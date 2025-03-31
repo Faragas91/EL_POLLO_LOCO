@@ -1,10 +1,6 @@
-
-
 /**
- * 
- *
- * 
- * 
+ * Represents the world in the game.
+ * This class manages sound playback and mute functionality.
  */
 class World {
     character = new Character();
@@ -34,7 +30,12 @@ class World {
     gameWinSound = new Audio('audio/game-win.mp3');
     gameLoseSound = new Audio('audio/game-lose.mp3');
 
-
+    /**
+     * Initializes the game world.
+     * 
+     * @param {HTMLCanvasElement} canvas - The canvas element where the game is drawn.
+     * @param {Object} keyboard - The keyboard input handler.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
@@ -45,12 +46,18 @@ class World {
         this.loadSounds();
     }
 
+    /**
+     * Sets references to the world for the character and the endboss.
+     */
     setWorld() {
         this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss);
         this.endboss.world = this;
         this.character.world = this;
     }
 
+    /**
+     * Runs the game loop, checking collisions and game state periodically.
+     */
     run() {
         setInterval(() => {
             this.checkCharacterToEnemyCollisions();
@@ -70,7 +77,9 @@ class World {
         }, 200);
     }
     
-    
+    /**
+     * Loads all game sounds into the sound reference list.
+     */
     loadSounds() {
         soundReference.addSoundToList(this.coinFindSound);
         soundReference.addSoundToList(this.bottleFindSound);
@@ -83,6 +92,13 @@ class World {
         soundReference.addSoundToList(this.gameLoseSound);
     }
 
+    /**
+     * Plays a given sound.
+     * 
+     * @param {HTMLAudioElement} sound - The sound to be played.
+     * @param {number} volume - The volume level (0.0 to 1.0).
+     * @param {boolean} [loop=false] - Whether the sound should loop.
+     */
     playSound(sound, volume, loop = false) {
         sound.loop = loop;
         sound.currentTime = 0;
@@ -90,11 +106,19 @@ class World {
         sound.play();
     }
 
+    /**
+     * Stops a given sound and resets its playback time.
+     * 
+     * @param {HTMLAudioElement} sound - The sound to be stopped.
+     */
     stopSound(sound) {
         sound.pause();
         sound.currentTime = 0;
     }
 
+    /**
+     * Checks if the game is over and triggers the end screen if necessary.
+     */
     checkGameOver() {
         if (this.character.energy <= 0) {
             this.gameWin = false;
@@ -105,6 +129,9 @@ class World {
         }
     }
     
+    /**
+     * Checks if the game is won by defeating the Endboss.
+     */
     checkGameWin() {
         this.level.enemies.forEach((enemy) => { 
             if (enemy instanceof Endboss && enemy.energy <= 0) {
@@ -117,6 +144,9 @@ class World {
         });
     }
 
+    /**
+     * Plays the appropriate end screen sound based on game outcome.
+     */
     playEndScreenSound() {
         if (this.endScreenSoundPlayed) return;
 
@@ -129,6 +159,9 @@ class World {
         }
     }
     
+    /**
+     * Plays the game win sound with a slight delay.
+     */
     playGameWinSound() {
         this.endScreenSoundPlayed = true;
         setTimeout(() => {
@@ -136,13 +169,19 @@ class World {
         }, 1000);
     }
 
+    /**
+     * Plays the game over sound with a slight delay.
+     */
     playGameOverSound() {
         this.endScreenSoundPlayed = true;
         setTimeout(() => {
             this.playSound(this.gameLoseSound, 0.1);
         }, 1000);
     }
-
+    
+    /**
+     * Clears the game world, stopping all drawings and removing objects.
+     */
     clearWorld() {
         this.stopDrawing = true;
         this.level.enemies = [];
@@ -156,7 +195,9 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-
+    /**
+     * Checks for collisions between the character and enemies.
+     */
     checkCharacterToEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0 ){
@@ -180,6 +221,9 @@ class World {
         });
     }
 
+    /**
+     * Checks for collisions between the character and coins.
+     */
     checkCharacterToCoinCollisions(){
         this.level.coin = this.level.coin.filter(coin => {
             if (this.character.isColliding(coin)){
@@ -192,6 +236,9 @@ class World {
         });
     }
 
+    /**
+     * Checks for collisions between the character and bottles.
+     */
     checkCharacterToBottleCollisions(){
         this.level.bottle = this.level.bottle.filter(bottle => {
             if (this.character.isColliding(bottle) && this.character.foundBottle !== 100){
@@ -204,6 +251,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the player has thrown a bottle.
+     */
     checkThrowObjects() {
         if (this.keyboard.THROW && this.character.foundBottle !== 0) {
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
@@ -213,6 +263,9 @@ class World {
         }
     }
 
+    /**
+     * Checks if a thrown bottle collides with an enemy.
+     */
     checkBottleToEnemieCollisions() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
@@ -243,6 +296,10 @@ class World {
         });
     }
     
+    /**
+     * Draws the game world on the canvas.
+     * Continuously updates and renders objects, backgrounds, and UI elements.
+     */
     draw() {
         if (this.stopDrawing) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -282,12 +339,22 @@ class World {
         });
     }
 
+    /**
+     * Adds an array of game objects to the map.
+     * 
+     * @param {Array} objects - Array of game objects to be added to the map.
+     */
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object)
         });
     }
 
+    /**
+     * Adds a single game object to the map and handles image flipping if necessary.
+     * 
+     * @param {Object} mo - The game object to be drawn.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -301,6 +368,11 @@ class World {
         }
     }
 
+    /**
+     * Flips an image horizontally before rendering.
+     * 
+     * @param {Object} mo - The game object to be flipped.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -308,6 +380,11 @@ class World {
         mo.positionX = mo.positionX * -1;
     }
 
+    /**
+     * Restores the original position of a flipped image.
+     * 
+     * @param {Object} mo - The game object to be restored.
+     */
     flipImageBack(mo) {
         mo.positionX = mo.positionX * -1;
         this.ctx.restore();

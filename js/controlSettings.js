@@ -1,12 +1,13 @@
-/////////////////////////////////
-//////// Keyboard Section ///////
-/////////////////////////////////
-
+/**
+ * Sets the state of a specified key in the keyboard object.
+ * 
+ * @param {string} key - The key to set the state for.
+ * @param {boolean} state - The state of the key (true for pressed, false for released).
+ */
 function setKeyState(key, state) {
     keyboard[key] = state;
 }
 
-// Game control keys
 window.addEventListener("keydown", (event) => {
     handleKeyEvent(event.key, true);
 });
@@ -15,6 +16,13 @@ window.addEventListener("keyup", (event) => {
     handleKeyEvent(event.key, false);
 });
 
+
+/**
+ * Handles keyboard events and updates the corresponding key state.
+ * 
+ * @param {string} key - The key that was pressed or released.
+ * @param {boolean} state - The state of the key (true for pressed, false for released).
+ */
 function handleKeyEvent(key, state) {
     const keyMap = {
         'a': 'LEFT',
@@ -30,10 +38,12 @@ function handleKeyEvent(key, state) {
     }
 }
 
-/////////////////////////////////
-//////// Touch Controls /////////
-/////////////////////////////////
-
+/**
+ * Adds touch controls for a specific button, mapping it to a key action.
+ * 
+ * @param {string} buttonId - The ID of the button element.
+ * @param {string} key - The key action to be triggered (e.g., 'LEFT', 'RIGHT').
+ */
 function addTouchControls(buttonId, key) {
     const button = document.getElementById(buttonId);
     
@@ -52,7 +62,6 @@ function addTouchControls(buttonId, key) {
     });
 }
 
-// Touch buttons zuweisen
 addTouchControls('btnLeft', 'LEFT');
 addTouchControls('btnRight', 'RIGHT');
 addTouchControls('btnJump', 'UP');

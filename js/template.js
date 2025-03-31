@@ -1,3 +1,9 @@
+/**
+ * Generates the HTML template for the end screen buttons.
+ * This includes a restart button and a home screen button.
+ * 
+ * @returns {string} The HTML string containing the end screen buttons.
+ */
 function templateEndScreen() {
     return `
         <div class="end_buttons-container">        

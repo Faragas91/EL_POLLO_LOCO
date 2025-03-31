@@ -13,11 +13,16 @@ body {
     margin: 0;
 }
 
-.font {
-    font-family: "Winky Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
+@font-face {
+    font-family: 'Winky Sans';
+    src: url('fonts/Winky_Sans/static/WinkySans-Regular.ttf') format('truetype');
+    font-weight: normal;
     font-style: normal;
+}
+
+.font {
+    font-family: 'Winky Sans', sans-serif;
+    font-weight: 700;
     font-size: 20px;
 }
 
@@ -81,3 +86,5 @@ canvas {
         height: 100vh;
     }
 }
+
+

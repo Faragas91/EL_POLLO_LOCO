@@ -34,6 +34,10 @@
     h1 {
         display: none !important;
     }
+
+    .panel {
+        display: flex !important;
+    }
 }
 
 @media screen and (max-width: 720px) {

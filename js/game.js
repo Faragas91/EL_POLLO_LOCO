@@ -9,16 +9,17 @@ soundReference.addSoundToList(introMusic);
 soundReference.addSoundToList(gameMusic);
 soundReference.updateButtonIcon();
 
-
-//////////////////////////////////////
-//////// Start Screen Section ////////
-//////////////////////////////////////
-
+/**
+ * Toggles the visibility of the game info menu.
+ */
 function showGameInfo() {
     let offScreenMenu = document.getElementById('game-info');
     offScreenMenu.classList.toggle('active');
 }
 
+/**
+ * Displays the start screen and hides the game screen.
+ */
 function showStartScreen() {
     const startScreen = document.querySelector(".start_screen");
     const gameScreen = document.querySelector(".game_container");
@@ -27,15 +28,18 @@ function showStartScreen() {
     gameScreen.classList.add("hidden");
 }
 
-//////////////////////////////////////
-//////// Game Screen Section ////////
-//////////////////////////////////////
-
+/**
+ * Initializes the game world by setting up the canvas and the world object.
+ */
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
 }
 
+/**
+ * Starts the game by hiding the start screen, showing the game screen, 
+ * initializing objects, and playing the game music.
+ */
 function startGame() {
     const startScreen = document.querySelector(".start_screen");
     const gameScreen = document.querySelector(".game_container");
@@ -47,34 +51,55 @@ function startGame() {
     playGameMusic();
 }
 
-//////////////////////////////////////
-///////// End Screen Section /////////
-//////////////////////////////////////
-
+/**
+ * Displays the end screen based on whether the player won or lost.
+ */
 function showEndScreen() {
+    gameMusic.pause();
+    updateEndScreen(world.gameWin);
+}
+
+/**
+ * Updates the end screen content and visibility.
+ * 
+ * @param {boolean} gameWon - Indicates whether the player won or lost.
+ */
+function updateEndScreen(gameWon) {
     const loseOrWin = document.getElementById('end-screen');
     const endScreen = document.querySelector(".end_screen");
     const gameScreen = document.querySelector(".game_container");
+
+    loseOrWin.innerHTML = getEndScreenHTML(gameWon);
     
-    if (world.gameWin) {
-        gameMusic.pause();
-        loseOrWin.innerHTML = `
+    endScreen.classList.remove("hidden");
+    gameScreen.classList.add("hidden");
+}
+
+/**
+ * Generates the appropriate HTML for the end screen.
+ * 
+ * @param {boolean} gameWon - Indicates whether the player won or lost.
+ * @returns {string} - The HTML string for the end screen.
+ */
+function getEndScreenHTML(gameWon) {
+    if (gameWon) {
+        return `
             <img src="img/You won, you lost/You Win A.png" alt="You Win" width=720px height=480px>
             ${templateEndScreen()}
-        `
-        endScreen.classList.remove("hidden");
-        gameScreen.classList.add("hidden");
+        `;
     } else {
-        gameMusic.pause();
-        loseOrWin.innerHTML = `
+        return `
             <img src="/img/You won, you lost/Game Over.png" alt="You Lose" width=720px height=480px>
             ${templateEndScreen()}
-        `
-        endScreen.classList.remove("hidden");
-        gameScreen.classList.add("hidden");
+        `;
     }
 }
 
+
+/**
+ * Restarts the game by resetting the world and keyboard, initializing objects,
+ * and playing the game music.
+ */
 function restartGame() {
     const endScreen = document.querySelector(".end_screen");
     const gameScreen = document.querySelector(".game_container");
@@ -91,6 +116,9 @@ function restartGame() {
     gameScreen.classList.remove("hidden");
 }
 
+/**
+ * Returns to the home screen by clearing the game world and showing the start screen.
+ */
 function backHome() {
     const endScreen = document.querySelector(".end_screen");
     const gameScreen = document.querySelector(".game_container");
@@ -102,21 +130,22 @@ function backHome() {
     showStartScreen();
     playIntroMusic();
 
-
     endScreen.classList.add("hidden");
     gameScreen.classList.add("hidden");
 }
 
-/////////////////////////////
-/////// Sound Section ///////
-/////////////////////////////
-
+/**
+ * Toggles the mute state of the game sound.
+ */
 function toggleSoundButton() {
     if (typeof soundReference !== "undefined" && soundReference.toggleMute) {
         soundReference.toggleMute();
     }
 }
 
+/**
+ * Plays the intro music in a loop at a low volume.
+ */
 function playIntroMusic() {
     introMusic.loop = true;
     introMusic.volume = 0.1;
@@ -130,7 +159,9 @@ document.addEventListener('click', (event) => {
     }
 }, { once: true });
 
-
+/**
+ * Plays the game music, stopping the intro music first.
+ */
 function playGameMusic() {
     introMusic.pause();
     introMusic.currentTime = 0;
@@ -139,11 +170,9 @@ function playGameMusic() {
     gameMusic.play();
 }
 
-
-////////////////////////////////////
-///////// FullScreen Section ///////
-////////////////////////////////////
-
+/**
+ * Toggles fullscreen mode for the game container.
+ */
 function toggleFullscreenButton() {
     let gameContainer = document.getElementById('game-container');
     if (!document.fullscreenElement) {
@@ -171,6 +200,11 @@ document.addEventListener("fullscreenchange", () => {
     }
 });
 
+/**
+ * Enters fullscreen mode for a given HTML element.
+ * 
+ * @param {HTMLElement} element - The element to make fullscreen.
+ */
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
@@ -181,6 +215,9 @@ function enterFullscreen(element) {
     }
 }
 
+/**
+ * Exits fullscreen mode.
+ */
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -189,10 +226,9 @@ function exitFullscreen() {
     }
 }
 
-////////////////////////////////////////
-//////// Screen Rotation Section ///////
-////////////////////////////////////////
-
+/**
+ * Checks the screen width and displays an overlay if the width is below 720px.
+ */
 function checkScreenWidth() {
     const rotationOverlay = document.getElementById("screen-rotation");
 
@@ -205,4 +241,5 @@ function checkScreenWidth() {
 
 window.addEventListener("resize", checkScreenWidth);
 window.addEventListener("load", checkScreenWidth);
+
 

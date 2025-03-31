@@ -80,6 +80,7 @@ class Endboss extends MovableObject {
     alert = true;
     isDeadAnimationPlayed = false;
     startAlertCountdown = 0;
+    alterTime = 7500;
     offset = {
         top: 70,
         left: 40,
@@ -119,21 +120,13 @@ class Endboss extends MovableObject {
      */
     animateEndboss() {
         setInterval(() => {
-            this.enbossIsDeadStopAnimation();
+            if (this.isDeadAnimationPlayed) return;
             this.endbossMovesLeft();
             this.endbossMovesRight();
             this.endbossSwitchedDirections();
         }, 150);
-
         this.playEndbossHurtAnimation();
         this.playEndbossDeadAnimation();
-    }
-
-    /**
-     * Stops animations if the Endboss is dead.
-     */
-    enbossIsDeadStopAnimation() {
-        if (this.isDeadAnimationPlayed) return;
     }
 
     /**
@@ -173,6 +166,7 @@ class Endboss extends MovableObject {
             if (this.isHurt()) {
                 this.world.playSound(this.endbossHurtSound, 0.1);
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
+                this.stopAlertAnimation();
             }
         }, 100);
     }
@@ -183,17 +177,17 @@ class Endboss extends MovableObject {
     playEndbossDeadAnimation() {
         setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
                 this.isDeadAnimationPlayed = true;
+                this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
             } 
-        }, 300);
+        }, 360);
     }
 
     /**
      * Toggles the Endboss's movement direction.
      */
     toggleDirection() {
-        this.enbossIsDeadStopAnimation();
+        if (this.isDeadAnimationPlayed) return;
         if (this.world.character.positionX >= this.levelCapForBoss && 
             this.alert === true && 
             !this.isMovingLeft && 
@@ -211,10 +205,21 @@ class Endboss extends MovableObject {
      */
     startedAlertAnimation() {
         this.playAnimation(this.IMAGES_ENDBOSS_ALERT);
-        setTimeout(() => {
+        this.alertTimeout = setTimeout(() => {
             this.alert = false;
             this.isMovingLeft = true;
-        }, 7500);
+        }, this.alterTime);
+    }
+
+    /**
+     * Stops the alert animation when the endboss gets hit.
+     */
+    stopAlertAnimation() {
+        if (this.alert) {
+            clearTimeout(this.alertTimeout);
+            this.alert = false;
+            this.isMovingLeft = true;
+        }
     }
 
     /**
@@ -228,7 +233,6 @@ class Endboss extends MovableObject {
             this.isMovingRight = true;
             this.alert = false;
         }, 3000); 
-
     }
 
     /**
