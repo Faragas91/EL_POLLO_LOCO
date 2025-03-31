@@ -1,9 +1,25 @@
+const soundReference = new Sound();
+
+/**
+ * Represents the sounds in the game.
+ * This class manages sound playback and mute functionality.
+ */
 class Sound {
+    /**
+     * Creates an instance of the Sound class.
+     * Initializes the mute state based on local storage and prepares an empty sound list.
+     */
     constructor() {
         this.isMuted = localStorage.getItem("mute") === "true";
         this.sounds = [];
     }
 
+    /**
+     * Adds a sound to the list of sounds.
+     * If the sound is muted, it sets the muted property of the sound.
+     * 
+     * @param {string} audio - The path for the sound file to be added.
+     */
     addSoundToList(audio) {
         this.sounds.push(audio);
         if (this.isMuted) {
@@ -11,6 +27,11 @@ class Sound {
         }
     }
 
+    /**
+     * Toggles the mute state of the sound.
+     * Updates the local storage and the muted property of all sounds.
+     * Calls the method to update the button icon.
+     */
     toggleMute() {
         this.isMuted = !this.isMuted;
         localStorage.setItem("mute", this.isMuted.toString());
@@ -19,6 +40,10 @@ class Sound {
     }
     
 
+    /**
+     * Updates the icon of the sound buttons based on the mute state.
+     * Changes the inner HTML of each button to reflect the current mute status.
+     */
     updateButtonIcon() {
         const soundButtons = document.querySelectorAll(".sound-btn");
         soundButtons.forEach(button => {
@@ -35,7 +60,3 @@ class Sound {
         });
     }
 }
-
-const soundReference = new Sound();
-
-

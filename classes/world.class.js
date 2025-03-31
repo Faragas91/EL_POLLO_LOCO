@@ -1,3 +1,11 @@
+
+
+/**
+ * 
+ *
+ * 
+ * 
+ */
 class World {
     character = new Character();
     canvas;
@@ -274,12 +282,12 @@ class World {
         });
     }
 
-
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object)
         });
     }
+
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
