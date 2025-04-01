@@ -152,7 +152,6 @@ class Character extends MovableObject {
      * Started to move the character to the right side
      * 
      */
-
     characterMovesRight() {
         if (this.world.keyboard.RIGHT && this.positionX < this.world.level.level_end_x) {
             this.moveRight();
@@ -174,7 +173,6 @@ class Character extends MovableObject {
     /**
      * Set the camera to the right position
      */
-
     setCameraPosition() {
         this.world.camera_x = -this.positionX + 100;
     }
@@ -195,7 +193,6 @@ class Character extends MovableObject {
      * When the Character moves the snore animation will be stopped 
      * and it turns the idle animation again
      */
-    
     returnToIdleWhenMoving() {
         if (this.isMoving) {
             this.resetIdleTimer();
@@ -207,7 +204,7 @@ class Character extends MovableObject {
      */
     stopSnoreSoundWhenGameEnds() {
         if (this.world.gameWin || !this.world.gameWin) {
-            this.world.stopSound(this.snoreSound);
+            this.stopSnoreSound();
         }
     }
 
@@ -312,7 +309,9 @@ class Character extends MovableObject {
         if (!this.isLongIdle) {
             this.isLongIdle = true;
             this.stopSnoreSound();
-            this.world.playSound(this.snoreSound, 0.1, true);
+            if (!this.world.gameWin) {
+                this.world.playSound(this.snoreSound, 0.1, true);
+            }
         }
         this.playAnimation(this.IMAGES_LONG_IDLE);
     }

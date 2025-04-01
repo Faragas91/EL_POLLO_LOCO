@@ -29,14 +29,16 @@
     display: none;
 }
 
+@media screen and (max-width: 1400px){
+    .panel {
+        display: flex !important;
+    }
+}
+
 @media screen and (max-width: 1000px) {
     .title,
     h1 {
         display: none !important;
-    }
-
-    .panel {
-        display: flex !important;
     }
 }
 

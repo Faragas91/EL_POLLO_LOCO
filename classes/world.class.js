@@ -164,6 +164,7 @@ class World {
         if (this.endScreenSoundPlayed) return;
 
         this.stopSound(this.endbossAlertSound);
+        this.stopSound(this.character.snoreSound);
         if (this.gameWin) {
             this.playGameWinSound();
         } 
@@ -263,7 +264,9 @@ class World {
     handleCharacterHit() {
         if (this.character.energy <= 0) return;
         this.character.hit(2);
-        this.playSound(this.hurtSound, 0.1);
+        if (!this.gameWin) {
+            this.playSound(this.hurtSound, 0.1);
+        }
         this.healthStatusBar.setPercentage(this.character.energy);
     }
 
@@ -302,6 +305,8 @@ class World {
      */
     checkThrowObjects() {
         if (this.keyboard.THROW && this.character.foundBottle !== 0) {
+            this.stopSound(this.character.snoreSound)
+            this.character.resetIdleTimer();
             let bottle = new ThrowableObject(this.character.positionX + 100, this.character.positionY + 100)
             this.throwableObjects.push(bottle);
             this.bottleStatusBar.setPercentage(this.character.foundBottle -= 20);
@@ -333,8 +338,8 @@ class World {
         this.playSound(this.bottleSplashSound, 0.1);
 
         if (enemy instanceof Endboss) {
+            enemy.hit(20);
             this.endbossStatusBar.setPercentage(enemy.energy);
-            enemy.hit(30);
         } else if (enemy instanceof NormalChicken) {
             this.handleChickenDeath(enemy, this.normalChickenDeadSound);
         } else if (enemy instanceof LittleChicken) {
@@ -407,7 +412,6 @@ class World {
         if (this.setEndbossHealthbar) {
             this.addToMap(this.endbossStatusBar);
             this.addToMap(this.endbossSymbol);
-            
         }
     }
 

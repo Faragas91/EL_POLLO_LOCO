@@ -180,7 +180,7 @@ class Endboss extends MovableObject {
                 this.isDeadAnimationPlayed = true;
                 this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
             } 
-        }, 360);
+        }, 333);
     }
 
     /**
