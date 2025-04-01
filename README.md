@@ -4,20 +4,20 @@
 
 ![El Pollo Loco](./img/10_own_pictures/start-screen.png)
 
-## Features
+## 🌟 Features
 
 - **Characters and Enemies**: You control your character to defeat enemies and collect various items.
 - **Puzzles and Boss Fights**: A thrilling boss fight awaits you.
 - **Sound Effects**: Music and sound effects create an immersive gaming experience.
 
-## Gameplay Mechanics
+## 🏆 Gameplay Mechanics
 
 - The character can move in all directions, jump, and attack.
 - There are different types of enemies, such as normal chickens and the final boss, each with their own attack strategies.
 - In the game, you can find bottles and collect coins.
 - Your goal is to defeat the final boss and win the game.
 
-## Controls
+## 🎮 Controls
 
 - W: JUMP
 - D: RIGHT
@@ -26,7 +26,7 @@
 
 ![El Pollo Loco](./img/10_own_pictures/gameplay.png)
 
-## Installation
+## ⚙️ Installation
 
 ### Prerequisites
 
@@ -39,13 +39,17 @@
     ```bash
     git clone https://github.com/DEIN-GITHUB-BENUTZERNAME/el-pollo-loco.git
     ```
-    ```bash
+
+2. **Execute index.html**:
+
     cd EL_POLLO_LOCO
     double click or press enter to execute index.html
-    ```
 
-## Contact
+## 🎉 Party I wish you a lot of fun with the game
+
+## 📞 Contact
 
 - Faragas91
 - GitHub: [Dein GitHub-Profil-Link](https://github.com/Faragas91)
 - Email: stefanredl@gmx.at
+- LinkedIn: [LinkedIn-Profil-Link](www.linkedin.com/in/stefanredl)
