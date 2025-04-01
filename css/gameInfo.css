@@ -46,3 +46,10 @@
     font-size: 32px;
     display: flex;
 }
+
+@media screen and (max-height: 500px) {
+
+    .game__info.active {
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+}
