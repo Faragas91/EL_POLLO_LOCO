@@ -1,5 +1,8 @@
 let level1;
 
+/**
+ * Initializes all game objects and creates the level.
+ */
 function initObjects() {
     level1 = new Level(
         generateEnemies(),
@@ -46,8 +49,12 @@ function initObjects() {
             new Bottle('img/6_salsa_bottle/2_salsa_bottle_on_ground.png', 2000 + Math.random() * 100, 330),
         ]
     );
-
 }
+
+/**
+ * Generates the enemies for the level.
+ * @returns {MovableObject[]} An array of enemy objects.
+ */
 function generateEnemies() {
     const enemies = [];
     
@@ -58,8 +65,7 @@ function generateEnemies() {
     for (let i = 0; i < 5; i++) {
         enemies.push(new LittleChicken());
     }
-
-    enemies.push(new Endboss());
     
+    enemies.push(new Endboss());
     return enemies;
 }
