@@ -50,7 +50,6 @@
 
 ## 📞 Contact
 
-- Faragas91
-- GitHub: [Dein GitHub-Profil-Link](https://github.com/Faragas91)
+- GitHub: [Faragas91](https://github.com/Faragas91)
 - Email: stefanredl@gmx.at
-- LinkedIn: [LinkedIn-Profil-Link](www.linkedin.com/in/stefanredl)
+- LinkedIn: [Stefan Redl](www.linkedin.com/in/stefanredl)
