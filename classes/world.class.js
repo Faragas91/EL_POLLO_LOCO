@@ -65,16 +65,29 @@ class World {
             this.checkCharacterToBottleCollisions();
             this.checkThrowObjects();
             this.checkBottleToEnemieCollisions();
-
-            if (!this.endScreenShowed) {
-                this.checkGameWin();
-                this.checkGameOver();
-            };
-
-            if (this.character.energy <= 0 || this.gameWin) {
-                this.playEndScreenSound();
-            }
+            this.showEndScreen();
+            this.checkWhichEndScreenSoundShouldPlayed();
         }, 200);
+    }
+
+    /**
+     * Shows the endscreen only one time
+     */
+    showEndScreen() {
+        if (!this.endScreenShowed) {
+            this.checkGameWin();
+            this.checkGameOver();
+        };
+    }
+
+    /**
+     * Checks whether the end screen sound should be played based on the character's energy
+     * and the game win status. 
+     */
+    checkWhichEndScreenSoundShouldPlayed() {
+        if (this.character.energy <= 0 || this.gameWin) {
+            this.playEndScreenSound();
+        }
     }
     
     /**
@@ -200,25 +213,58 @@ class World {
      */
     checkCharacterToEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0 ){
-                this.character.speedY = 12.5;
-                enemy.energy = 0;
-                if (enemy instanceof NormalChicken) {
-                    this.playSound(this.normalChickenDeadSound, 0.1);
-                } 
-                if (enemy instanceof LittleChicken) {
-                    this.playSound(this.littleChickenDeadSound, 0.1);
-                }
-                setTimeout(() => {
-                    this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-                }, 500);
+            if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0) {
+                this.handleEnemyCollision(enemy);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
-                if (this.character.energy <= 0) return;
-                this.character.hit(2);
-                this.playSound(this.hurtSound, 0.1);
-                this.healthStatusBar.setPercentage(this.character.energy);
+                this.handleCharacterHit();
             }
         });
+    }
+
+    /**
+     * Handles the collision when the character jumps on an enemy.
+     * @param {Object} enemy - The enemy object that the character collided with.
+     */
+    handleEnemyCollision(enemy) {
+        this.character.speedY = 12.5;
+        enemy.energy = 0;
+        this.playEnemyDeathSound(enemy);
+        this.removeEnemyAfterDelay(enemy, 500);
+    }
+
+    /**
+     * Plays the appropriate death sound for the enemy based on its type.
+     * @param {Object} enemy - The enemy object whose death sound should be played.
+     */
+    playEnemyDeathSound(enemy) {
+        if (enemy instanceof NormalChicken) {
+            this.playSound(this.normalChickenDeadSound, 0.1);
+        } 
+        if (enemy instanceof LittleChicken) {
+            this.playSound(this.littleChickenDeadSound, 0.1);
+        }
+    }
+
+    /**
+     * Removes the enemy from the level after a specified delay.
+     * @param {Object} enemy - The enemy object to be removed.
+     * @param {number} delay - The delay in milliseconds before the enemy is removed.
+     */
+    removeEnemyAfterDelay(enemy, delay) {
+        setTimeout(() => {
+            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+        }, delay);
+    }
+
+    /**
+     * Handles the situation when the character is hit by an enemy.
+     * If the character's energy is greater than 0, it reduces the energy and plays a sound.
+     */
+    handleCharacterHit() {
+        if (this.character.energy <= 0) return;
+        this.character.hit(2);
+        this.playSound(this.hurtSound, 0.1);
+        this.healthStatusBar.setPercentage(this.character.energy);
     }
 
     /**
@@ -270,30 +316,43 @@ class World {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy) && !bottle.hasBeenHit) {
-                    bottle.hasBeenHit = true;
-                    bottle.splash();
-                    this.playSound(this.bottleSplashSound, 0.1);
-                    if (enemy instanceof Endboss) {
-                        this.endbossStatusBar.setPercentage(enemy.energy)
-                        enemy.hit(30);
-                    }
-                    if (enemy instanceof NormalChicken) {
-                        enemy.energy = 0;
-                        this.playSound(this.normalChickenDeadSound, 0.1)
-                        setTimeout(() => {
-                            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-                        }, 1000);
-                    } 
-                    if (enemy instanceof LittleChicken) {
-                        enemy.energy = 0;
-                        this.playSound(this.littleChickenDeadSound, 0.1)
-                        setTimeout(() => {
-                            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-                        }, 1000);
-                    }
+                    this.handleBottleCollision(bottle, enemy);
                 }
             });
         });
+    }
+
+    /**
+     * Handles the collision between a bottle and an enemy.
+     * @param {Object} bottle - The thrown bottle.
+     * @param {Object} enemy - The enemy that the bottle collided with.
+     */
+    handleBottleCollision(bottle, enemy) {
+        bottle.hasBeenHit = true;
+        bottle.splash();
+        this.playSound(this.bottleSplashSound, 0.1);
+
+        if (enemy instanceof Endboss) {
+            this.endbossStatusBar.setPercentage(enemy.energy);
+            enemy.hit(30);
+        } else if (enemy instanceof NormalChicken) {
+            this.handleChickenDeath(enemy, this.normalChickenDeadSound);
+        } else if (enemy instanceof LittleChicken) {
+            this.handleChickenDeath(enemy, this.littleChickenDeadSound);
+        }
+    }
+
+    /**
+     * Handles the death of a chicken enemy.
+     * @param {Object} enemy - The chicken enemy that died.
+     * @param {string} sound - The sound to play when the chicken dies.
+     */
+    handleChickenDeath(enemy, sound) {
+        enemy.energy = 0;
+        this.playSound(sound, 0.1);
+        setTimeout(() => {
+            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+        }, 1000);
     }
     
     /**
@@ -303,17 +362,43 @@ class World {
     draw() {
         if (this.stopDrawing) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
+        this.addAllObjectsToMap();
+        let self = this;
+        requestAnimationFrame(function() {
+            self.draw();
+        });
+    }
 
+    /**
+     * Add all objects like character, collectibles and enemies to the map
+     */
+    addAllObjectsToMap(){
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.ctx.translate(-this.camera_x, 0);
+        this.addStatusbarsToMap();
+        this.addEndbossHealthBarToMap();
+        this.ctx.translate(this.camera_x, 0);
+        this.addAllCollectibleObjectsToMap();
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+    /**
+     * Adds character statusbars to the map.
+     */
+    addStatusbarsToMap() {
         this.addToMap(this.healthStatusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
+    }
 
+    /**
+     * Adds the endboss healthbar to the map when the character reached a specific positon
+     */
+    addEndbossHealthBarToMap() {
         if (this.character.positionX >= this.level.levelCapForBoss && !this.setEndbossHealthbar) {
             this.setEndbossHealthbar = true;
             this.playSound(this.endbossAlertSound, 0.1);
@@ -324,19 +409,15 @@ class World {
             this.addToMap(this.endbossSymbol);
             
         }
+    }
 
-        this.ctx.translate(this.camera_x, 0);
-        
+    /**
+     * Adds all collectible objects like coins, bottles, enviroment and clouds
+     */
+    addAllCollectibleObjectsToMap() {
         this.addObjectsToMap(this.level.coin);
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.throwableObjects);
-        
-        this.ctx.translate(-this.camera_x, 0);
-
-        let self = this;
-        requestAnimationFrame(function() {
-            self.draw();
-        });
     }
 
     /**
