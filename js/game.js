@@ -84,12 +84,12 @@ function updateEndScreen(gameWon) {
 function getEndScreenHTML(gameWon) {
     if (gameWon) {
         return `
-            <img src="img/You won, you lost/You Win A.png" alt="You Win" width=720px height=480px>
+            <img src="./img/You won, you lost/You Win A.png" alt="You Win" width=720px height=480px>
             ${templateEndScreen()}
         `;
     } else {
         return `
-            <img src="/img/You won, you lost/Game Over.png" alt="You Lose" width=720px height=480px>
+            <img src="./img/You won, you lost/Game Over.png" alt="You Lose" width=720px height=480px>
             ${templateEndScreen()}
         `;
     }
@@ -245,7 +245,6 @@ document.addEventListener("fullscreenchange", () => {
         `;
     });
 });
-
 
 /**
  * Checks the screen width and displays an overlay if the width is below 720px.
