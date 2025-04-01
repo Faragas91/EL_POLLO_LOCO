@@ -41,11 +41,12 @@
     ```
 
 2. **Execute index.html**:
-
+    ```bash
     cd EL_POLLO_LOCO
     double click or press enter to execute index.html
+    ```
 
-## 🎉 Party I wish you a lot of fun with the game
+## 🎉 I wish you a lot of fun with the game
 
 ## 📞 Contact
 
