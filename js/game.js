@@ -175,6 +175,7 @@ function playGameMusic() {
  */
 function toggleFullscreenButton() {
     let gameContainer = document.getElementById('main-container');
+
     if (!document.fullscreenElement) {
         enterFullscreen(gameContainer);
     } else {
@@ -182,31 +183,8 @@ function toggleFullscreenButton() {
     }
 }
 
-document.addEventListener("fullscreenchange", () => {
-    let fullscreenIcons = document.querySelectorAll('.fullscreen-icon');
-
-    fullscreenIcons.forEach(icon => {
-        if (document.fullscreenElement) {
-            icon.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
-                <path d="m136-80-56-56 264-264H160v-80h320v320h-80v-184L136-80Zm344-400v-320h80v184l264-264 56 56-264 264h184v80H480Z"/>
-            </svg>
-            `;
-        } else {
-            icon.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
-                <path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
-            </svg>
-            `;
-        }
-    });
-});
-
-
 /**
  * Enters fullscreen mode for a given HTML element.
- * 
- * @param {HTMLElement} element - The element to make fullscreen.
  */
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
@@ -215,33 +193,9 @@ function enterFullscreen(element) {
         element.msRequestFullscreen();
     } else if (element.webkitRequestFullscreen) {
         element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen) { // Firefox Support
+    } else if (element.mozRequestFullScreen) { 
         element.mozRequestFullScreen();
     }
-
-    // Elemente in den Fullscreen-Modus versetzen
-    const fullscreenElements = [
-        '#start-screen',
-        '#main-container',
-        '#start-screen-img',
-        '#end-screen',
-        '#game-container',
-        '#canvas'
-    ];
-
-    fullscreenElements.forEach(selector => {
-        document.querySelector(selector)?.classList.add('fullscreen-mode');
-    });
-
-    // Spezielle Anpassungen für das Bild
-    const gameImage = document.querySelector('#start-screen img');
-    if (gameImage) {
-        gameImage.style.maxHeight = 'none';
-        gameImage.style.maxWidth = 'none';
-    }
-
-    // Titel ausblenden
-    document.querySelector('.title')?.classList.add('hidden');
 }
 
 /**
@@ -252,34 +206,46 @@ function exitFullscreen() {
         document.exitFullscreen();
     } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) { // Firefox Support
+    } else if (document.mozCancelFullScreen) {
         document.mozCancelFullScreen();
     }
+}
 
-    // Fullscreen-Klasse entfernen
-    const fullscreenElements = [
-        '#start-screen',
-        '#main-container',
-        '#start-screen-img',
-        '#end-screen',
-        '#game-container',
-        '#canvas'
-    ];
-
+/**
+ * Updates UI elements based on fullscreen state.
+ */
+function updateFullScreenMode() {
+    let isFullscreen = !!document.fullscreenElement;
+    const fullscreenElements = ['#start-screen', '#main-container', '#start-screen-img', '#end-screen', '#game-container', '#canvas'];
     fullscreenElements.forEach(selector => {
-        document.querySelector(selector)?.classList.remove('fullscreen-mode');
+        document.querySelector(selector)?.classList.toggle('fullscreen-mode', isFullscreen);
     });
-
-    // Bildgröße zurücksetzen
     const gameImage = document.querySelector('#start-screen img');
     if (gameImage) {
-        gameImage.style.maxHeight = '480px';
-        gameImage.style.width = '720px';
+        gameImage.style.maxHeight = isFullscreen ? 'none' : '480px';
+        gameImage.style.maxWidth = isFullscreen ? 'none' : '720px';
     }
-
-    // Titel wieder einblenden
-    document.querySelector('.title')?.classList.remove('hidden');
+    document.querySelector('.title')?.classList.toggle('hidden', isFullscreen);
 }
+
+/**
+ * Handles fullscreen changes.
+ */
+document.addEventListener("fullscreenchange", () => {
+    updateFullScreenMode();
+    document.querySelectorAll('.fullscreen-icon').forEach(icon => {
+        icon.innerHTML = document.fullscreenElement ? `
+            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
+                <path d="m136-80-56-56 264-264H160v-80h320v320h-80v-184L136-80Zm344-400v-320h80v184l264-264 56 56-264 264h184v80H480Z"/>
+            </svg>
+        ` : `
+            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">
+                <path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
+            </svg>
+        `;
+    });
+});
+
 
 /**
  * Checks the screen width and displays an overlay if the width is below 720px.
