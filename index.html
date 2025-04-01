@@ -42,7 +42,7 @@
     <script src="./levels/level1.js"defer></script>
     <script src="./js/game.js" defer></script>
 </head>
-<body class="font main__container" onload="showStartScreen()">
+<body class="font main__container" id="main-container" onload="showStartScreen()">
     <div class="screen-rotation hidden" id="screen-rotation">
         <div class="screen-rotation-content">
             <svg xmlns="http://www.w3.org/2000/svg" height="100px" viewBox="0 -960 960 960" width="100px" fill="#FFFFFF">
@@ -69,7 +69,7 @@
                 <li><a href="./html/privacy-policy.html" class="game__info-link">Privacy Policy</a></li>
             </ul>
         </div>
-        <img src="./img/9_intro_outro_screens/start/startscreen_1.png" width ="720" height ="480">
+        <img id="start-screen-img" src="./img/9_intro_outro_screens/start/startscreen_1.png" width ="720" height ="480">
         <div class="start_buttons-container">        
             <button class="play_button start_screen_buttons" id="start-game-button" onclick="startGame()">
                 <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#1f1f1f">

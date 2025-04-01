@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .end_screen img {
@@ -15,6 +16,7 @@
     display: flex;
     margin-top: 20px;
     gap: 32px;
+    top: 10px;
 }
 
 .end_screen_buttons {

@@ -75,6 +75,11 @@ canvas {
     display: flex !important;
 }
 
+.fullscreen-mode {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
 @media only screen and (max-width: 720px){ 
     canvas {
         width: 100%;
