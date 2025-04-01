@@ -78,37 +78,4 @@ class DrawableObject{
     collectBottle(){
         this.foundBottle += 20;
     }
-
-    // drawFrame(ctx) {
-    //     if (
-    //         this instanceof Character ||
-    //         this instanceof Endboss || 
-    //         this instanceof NormalChicken || 
-    //         this instanceof LittleChicken || 
-    //         this instanceof Bottle || 
-    //         this instanceof Coin
-    //     ) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = "5";
-    //         ctx.strokeStyle = "blue";
-    //         ctx.rect(this.positionX, this.positionY, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
-
-    // drawOffsetFrame(ctx) {
-    //     if (this instanceof Character || 
-    //         this instanceof NormalChicken || 
-    //         this instanceof LittleChicken || 
-    //         this instanceof Bottle || 
-    //         this instanceof Coin || 
-    //         this instanceof ThrowableObject ||
-    //         this instanceof Endboss) {
-    //             ctx.beginPath();
-    //             ctx.lineWidth = '3';
-    //             ctx.strokeStyle = 'red';
-    //             ctx.rect(this.positionX + this.offset.left, this.positionY + this.offset.top, this.width - this.offset.right -this.offset.left, this.height - this.offset.top - this.offset.bottom)
-    //             ctx.stroke();
-    //         }
-    // }
 }
