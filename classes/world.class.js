@@ -20,7 +20,7 @@ class World {
     gameWin;
     endScreenSoundPlayed = false;
     endScreenShowed = false;
-
+    characterWasHit = true;
     sounds = {
         coin: new Audio('audio/coin.mp3'),
         bottle: new Audio('audio/bottle.mp3'),
@@ -88,17 +88,6 @@ class World {
     }
 
     /**
-     * Checks for all possible collisions in the game.
-     */
-    checkCollisions() {
-        this.checkCharacterToEnemyCollisions();
-        this.checkCharacterToCoinCollisions();
-        this.checkCharacterToBottleCollisions();
-        this.checkThrowObjects();
-        this.checkBottleToEnemieCollisions();
-    }
-
-    /**
      * Checks if the game is over or won, and triggers the end screen.
      */
     showEndScreen() {
@@ -155,13 +144,22 @@ class World {
      */
     playEndScreenSound() {
         if (this.endScreenSoundPlayed) return;
-
         soundReference.stopSound(this.sounds.endbossAlert);
         soundReference.stopSound(this.character.snoreSound);
-
         this.endScreenSoundPlayed = true;
         const sound = this.gameWin ? this.sounds.gameWin : this.sounds.gameLose;
         setTimeout(() => soundReference.playSound(sound, 0.1), 1000);
+    }
+
+    /**
+    * Checks for all possible collisions in the game.
+    */
+    checkCollisions() {
+        this.checkCharacterToEnemyCollisions();
+        this.checkCharacterToCoinCollisions();
+        this.checkCharacterToBottleCollisions();
+        this.checkThrowObjects();
+        this.checkBottleToEnemieCollisions();
     }
 
     /**
@@ -172,9 +170,19 @@ class World {
             if (this.character.isCollidingFromAbove(enemy) && this.character.speedY < 0) {
                 this.handleEnemyCollision(enemy);
             } else if (this.character.isCollidingFromSideOrBelow(enemy)) {
-                this.handleCharacterHit();
+                this.applyHitCooldown();
             }
         });
+    }
+
+    /**
+     * Prevents consecutive hits for 1s after taking damage.
+     */
+    applyHitCooldown() {
+        if (!this.characterWasHit) return;
+        this.handleCharacterHit();
+        this.characterWasHit = false;
+        setTimeout(() => (this.characterWasHit = true), 1000);
     }
 
     /**
@@ -273,8 +281,8 @@ class World {
         bottle.hasBeenHit = true;
         bottle.splash();
         soundReference.playSound(this.sounds.bottle, 0.1);
-
         if (enemy instanceof Endboss) {
+            soundReference.stopSound(this.sounds.endbossAlert);
             enemy.hit(20);
             this.statusBars.endboss.setPercentage(enemy.energy);
         } else if (enemy instanceof NormalChicken || enemy instanceof LittleChicken) {
@@ -336,7 +344,6 @@ class World {
             this.setEndbossHealthbar = true;
             soundReference.playSound(this.sounds.endbossAlert, 0.1);
         }
-
         if (this.setEndbossHealthbar) {
             this.addToMap(this.statusBars.endboss);
             this.addToMap(this.statusBars.endbossSymbol);
