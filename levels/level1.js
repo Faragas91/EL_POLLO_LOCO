@@ -58,11 +58,11 @@ function initObjects() {
 function generateEnemies() {
     const enemies = [];
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         enemies.push(new NormalChicken());
     }
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         enemies.push(new LittleChicken());
     }
     

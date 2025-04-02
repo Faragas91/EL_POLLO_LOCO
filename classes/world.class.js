@@ -200,7 +200,7 @@ class World {
      */
     handleCharacterHit() {
         if (this.character.energy > 0) {
-            this.character.hit(2);
+            this.character.hit(10);
             if (!this.gameWin) soundReference.playSound(this.sounds.hurt, 0.1);
             this.statusBars.health.setPercentage(this.character.energy);
         }
