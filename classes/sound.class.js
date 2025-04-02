@@ -37,7 +37,6 @@ class Sound {
         this.updateButtonIcon();
     }
     
-
     /**
      * Updates the icon of the sound buttons based on the mute state.
      * Changes the inner HTML of each button to reflect the current mute status.
@@ -56,6 +55,30 @@ class Sound {
                     40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z"/>
                 </svg>`;
         });
+    }
+
+    /**
+     * Plays a given sound.
+     * 
+     * @param {HTMLAudioElement} sound - The sound to be played.
+     * @param {number} volume - The volume level (0.0 to 1.0).
+     * @param {boolean} [loop=false] - Whether the sound should loop.
+     */
+    playSound(sound, volume, loop = false) {
+        sound.loop = loop;
+        sound.currentTime = 0;
+        sound.volume = volume;
+        sound.play();
+    }
+    
+    /**
+     * Stops a given sound and resets its playback time.
+     * 
+     * @param {HTMLAudioElement} sound - The sound to be stopped.
+     */
+    stopSound(sound) {
+        sound.pause();
+        sound.currentTime = 0;
     }
 }
 

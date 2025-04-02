@@ -164,7 +164,7 @@ class Endboss extends MovableObject {
     playEndbossHurtAnimation() {
         setInterval(() => { 
             if (this.isHurt()) {
-                this.world.playSound(this.endbossHurtSound, 0.1);
+                soundReference.playSound(this.endbossHurtSound, 0.1);
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
                 this.stopAlertAnimation();
             }
