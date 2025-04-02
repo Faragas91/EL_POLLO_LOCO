@@ -81,6 +81,10 @@ class Endboss extends MovableObject {
     isDeadAnimationPlayed = false;
     startAlertCountdown = 0;
     alterTime = 7500;
+    endbossWalkAnimation = null;
+    endbossHurtAnimation = null;
+    endbossDeadAnimation = null;
+
     offset = {
         top: 70,
         left: 40,
@@ -119,15 +123,17 @@ class Endboss extends MovableObject {
      * Handles the Endboss's animations and movements.
      */
     animateEndboss() {
-        setInterval(() => {
+        this.endbossWalkAnimation = setInterval(() => {
             if (this.isDeadAnimationPlayed) return;
             this.endbossMovesLeft();
             this.endbossMovesRight();
             this.endbossSwitchedDirections();
         }, 150);
+    
         this.playEndbossHurtAnimation();
         this.playEndbossDeadAnimation();
     }
+    
 
     /**
      * Moves the Endboss to the left if conditions are met.
@@ -162,7 +168,7 @@ class Endboss extends MovableObject {
      * Plays the hurt animation when the Endboss is hit.
      */
     playEndbossHurtAnimation() {
-        setInterval(() => { 
+        this.endbossHurtAnimation = setInterval(() => { 
             if (this.isHurt()) {
                 soundReference.playSound(this.endbossHurtSound, 0.1);
                 this.playAnimation(this.IMAGES_ENDBOSS_HURT);
@@ -175,12 +181,15 @@ class Endboss extends MovableObject {
      * Plays the death animation when the Endboss is defeated.
      */
     playEndbossDeadAnimation() {
-        setInterval(() => {
+        clearInterval(this.endbossDeadAnimation);
+        this.endbossDeadAnimation = setInterval(() => {
             if (this.isDead()) {
                 this.isDeadAnimationPlayed = true;
+                clearInterval(this.endbossWalkAnimation);
+                clearInterval(this.endbossHurtAnimation);
                 this.playAnimation(this.IMAGES_ENDBOSS_DEAD);
             } 
-        }, 333);
+        }, 325);
     }
 
     /**

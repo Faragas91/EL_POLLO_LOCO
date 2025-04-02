@@ -81,6 +81,9 @@ class World {
         this.coinStatusBar = null;
         this.bottleStatusbar = null;
         this.endbossStatusBar = null;
+        clearInterval(this.endbossWalkAnimation);
+        clearInterval(this.endbossHurtAnimation);
+        clearInterval(this.endbossDeadAnimation);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -200,7 +203,7 @@ class World {
      */
     handleCharacterHit() {
         if (this.character.energy > 0) {
-            this.character.hit(10);
+            this.character.hit(20);
             if (!this.gameWin) soundReference.playSound(this.sounds.hurt, 0.1);
             this.statusBars.health.setPercentage(this.character.energy);
         }
