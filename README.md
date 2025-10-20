@@ -37,7 +37,7 @@
 1. **Clone this repository**:
 
     ```bash
-    git clone https://github.com/DEIN-GITHUB-BENUTZERNAME/el-pollo-loco.git
+    git clone https://github.com/Faragas91/EL_POLLO_LOCO.git
     ```
 
 2. **Execute index.html**:
